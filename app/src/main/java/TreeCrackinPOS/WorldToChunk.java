@@ -2,7 +2,7 @@ package TreeCrackinPOS;
 
 public class WorldToChunk {
     // world seed -> chunk seed
-    public static void main2(String[] args) {
+    public static void main(String[] args) {
         RandomOverride rand = new RandomOverride();
 
         long worldSeed = 5;

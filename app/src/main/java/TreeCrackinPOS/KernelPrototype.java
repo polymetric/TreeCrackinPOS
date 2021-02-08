@@ -26,6 +26,16 @@ public class KernelPrototype {
                 {   0,  12 },
         };
 
+        char[] treeTypes = {
+                'o',
+                'o',
+                'o',
+                'b',
+                'o',
+                'b',
+                'o',
+        };
+
         int[] treeHeights = {
                 5,
                 4,
@@ -65,28 +75,38 @@ public class KernelPrototype {
         System.out.println("started at " + System.currentTimeMillis());
         for (long treeSeed = treeSeedStart; treeSeed < treeSeedEnd; treeSeed++) {
             rand.setSeedDirect(treeSeed);
-            int matches = 0;
             int baseX = rand.nextInt(16);
             int baseZ = rand.nextInt(16);
-            int trunkHeight = rand.nextInt(3) + 4;
-            for (int leaf = 0; leaf < 12; leaf++) {
-                gennedLeaves[leaf] = rand.nextInt(2) != 0 ? 'l' : 'n';
+            char type = 'o';
+            if (rand.nextInt(5) == 0) {
+                type = 'b';
+            } else if (rand.nextInt(10) == 0) {
+                type = 'B';
             }
-            for (int targetTree = 0; targetTree < TREE_COUNT; targetTree++) {
-                if (baseX == trees[targetTree][0]
-                        && baseZ == trees[targetTree][1]
-                        && trunkHeight == treeHeights[targetTree]
-                ) {
-                    int leafMatches = 0;
-                    for (int leaf = 0; leaf < 12; leaf++) {
-                        if (treeLeaves[targetTree][leaf] == gennedLeaves[leaf]) {
-                            leafMatches++;
+            if (type != 'B') {
+                int trunkHeight = rand.nextInt(3) + 4;
+                for (int leaf = 0; leaf < 12; leaf++) {
+                    gennedLeaves[leaf] = rand.nextInt(2) != 0 ? 'l' : 'n';
+                }
+                for (int targetTree = 0; targetTree < TREE_COUNT; targetTree++) {
+                    if (baseX == trees[targetTree][0]
+                            && baseZ == trees[targetTree][1]
+                            && trunkHeight == treeHeights[targetTree]
+                            && type == treeTypes[targetTree]
+                    ) {
+                        int leafMatches = 0;
+                        for (int leaf = 0; leaf < 12; leaf++) {
+                            if (treeLeaves[targetTree][leaf] == gennedLeaves[leaf]) {
+                                leafMatches++;
+                            }
+                        }
+                        if (leafMatches == sureLeaves[targetTree]) {
+                            System.out.printf("found match for tree %d: seed: %d\n", targetTree, treeSeed);
                         }
                     }
-                    if (leafMatches == sureLeaves[targetTree]) {
-                        System.out.printf("found match for tree %d: seed: %d\n", targetTree, treeSeed);
-                    }
                 }
+            } else {
+
             }
             // prints seed every time the progress increases by 1/10000 of the seedspace
 //          if (treeSeed % 28147497671L == 0) {
