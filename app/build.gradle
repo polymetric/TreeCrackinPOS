@@ -19,6 +19,7 @@ dependencies {
 
 application {
 //    mainClass = 'TreeCrackinPOS.KernelPrototype'
-    mainClass = 'TreeCrackinPOS.DFZTest'
+//    mainClass = 'TreeCrackinPOS.DFZTest'
 //    mainClass = 'TreeCrackinPOS.WorldToChunk'
+    mainClass = 'TreeCrackinPOS.NextIntDemo'
 }
