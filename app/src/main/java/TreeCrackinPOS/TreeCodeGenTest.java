@@ -4,7 +4,7 @@ import kaptainwutax.seedutils.lcg.LCG;
 
 public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
-        final int SEEDS_PER_KERNEL = 1 << 1;
+        final int SEEDS_PER_KERNEL = 1;
         final int TREE_COUNT = 7;
         final int TARGET_TREE = 1;
 
@@ -90,6 +90,8 @@ public class TreeCodeGenTest {
                     } else {
                         kernelGen.addCheck(2, Comparison.EQUAL, 0);
                     }
+                } else {
+                    kernelGen.addSkip(1);
                 }
             }
             kernelGen.addSkip(4);
@@ -122,7 +124,7 @@ public class TreeCodeGenTest {
                 int mask = bound - 1;
 
                 String parameterized = String.format(
-                        "if (baseSeed * %dLLU + %dLLU >> %d & %d %s %d) return;",
+                        "if ((((baseSeed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) continue;",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                         lcg.multiplier,
                         lcg.addend,
@@ -136,7 +138,7 @@ public class TreeCodeGenTest {
                 int rightShift = 17;
 
                 String parameterized = String.format(
-                        "if (baseSeed * %dLLU + %dLLU >> %d %% %d %s %d) return;",
+                        "if ((((baseSeed * %15dLU + %15dLU) >> %2d) %% %2d) %2s %2d) continue;",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                         lcg.multiplier,
                         lcg.addend,
