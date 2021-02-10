@@ -5,59 +5,47 @@ import kaptainwutax.seedutils.lcg.LCG;
 public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
         final int SEEDS_PER_KERNEL = 1;
-        final int TREE_COUNT = 7;
-        final int TARGET_TREE = 1;
+        final int TREE_COUNT = 4;
+        final int TARGET_TREE = 3;
 
         final String outfile = String.format("tree%d.cl", TARGET_TREE);
 
+        // Ln is the number of the tree on the recreation,
+        // the number after that " - 0" is the index in the array
+        // which is what you use to set TARGET_TREE to
         int[][] trees = {
-                {1, 1}, // 0
-                {2, 8}, // 1
-                {15, 10}, // 2
-                {12, 2}, // 3
-                {7, 3}, // 4
-                {3, 4}, // 5
-                {0, 12}, // 6
+                {   5,   8 }, // L4 - 0
+                {   6,  15 }, // L5 - 1
+                {  15,  15 }, // L6 - 2
+                {   0,  11 }, // L7 - 3
         };
 
         char[] treeTypes = {
-                'o', // 0
-                'o', // 1
-                'o', // 2
-                'b', // 3
-                'o', // 4
-                'b', // 5
-                'o', // 6
+                'o', // L4 - 0
+                'b', // L5 - 1
+                'o', // L6 - 2
+                'o', // L7 - 3
         };
 
         int[] treeHeights = {
-                5, // 0
-                4, // 1
-                5, // 2
-                5, // 3
-                6, // 4
-                6, // 5
-                4, // 6
+                5, // L4 - 0
+                5, // L5 - 1
+                6, // L6 - 2
+                4, // L7 - 3
         };
 
         char[][] treeLeaves = {
-                {'l', 'n', 'n', 'u', 'n', 'l', 'l', 'u', 'l', 'l', 'n', 'u',}, // 0
-                {'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', 'n', 'n', 'n', 'l',}, // 1
-                {'n', 'l', 'l', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l',}, // 2
-                {'l', 'n', 'l', 'n', 'u', 'l', 'n', 'n', 'l', 'n', 'n', 'l',}, // 3
-                {'l', 'l', 'u', 'u', 'l', 'l', 'u', 'u', 'l', 'u', 'u', 'u',}, // 4
-                {'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'l', 'u', 'u',}, // 5
-                {'u', 'n', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'n', 'n', 'l',}, // 6
+                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', }, // L4 - 0
+                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', }, // L5 - 1
+                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', }, // L6 - 2
+                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', }, // L7 - 3
         };
 
-        int[] sureLeaves = {
-                9,  // 0
-                12, // 1
-                12, // 2
-                11, // 3
-                5,  // 4
-                6,  // 5
-                8,  // 6
+        int[] knownLeaves = {
+                5, // L4 - 0
+                6, // L5 - 1
+                8, // L6 - 2
+                7, // L7 - 3
         };
 
         TreeKernelGenerator kernelGen = new TreeKernelGenerator();

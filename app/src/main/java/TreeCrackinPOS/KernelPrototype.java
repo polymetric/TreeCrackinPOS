@@ -115,27 +115,4 @@ public class KernelPrototype {
 //            }
         }
     }
-
-    // count sure leaves
-    public static void main3(String[] args) {
-        char[][] treeLeaves = {
-                { 'l', 'n', 'n', 'u', 'n', 'l', 'l', 'u', 'l', 'l', 'n', 'u', },
-                { 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', 'n', 'n', 'n', 'l', },
-                { 'n', 'l', 'l', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', },
-                { 'l', 'n', 'l', 'n', 'u', 'l', 'n', 'n', 'l', 'n', 'n', 'l', },
-                { 'l', 'l', 'u', 'u', 'l', 'l', 'u', 'u', 'l', 'u', 'u', 'u', },
-                { 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'l', 'u', 'u', },
-                { 'u', 'n', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'n', 'n', 'l', },
-        };
-
-        for (int tree = 0; tree < 7; tree++) {
-            int sureLeaves = 0;
-            for (int leaf = 0; leaf < 12; leaf++) {
-                if (treeLeaves[tree][leaf] == 'l' || treeLeaves[tree][leaf] == 'n') {
-                    sureLeaves += 1;
-                }
-            }
-            System.out.printf("%d,\n", sureLeaves);
-        }
-    }
 }
