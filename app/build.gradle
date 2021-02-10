@@ -22,5 +22,6 @@ application {
 //    mainClass = 'TreeCrackinPOS.DFZTest'
 //    mainClass = 'TreeCrackinPOS.WorldToChunk'
 //    mainClass = 'TreeCrackinPOS.NextIntDemo'
-    mainClass = 'TreeCrackinPOS.NextIntDemo2'
+//    mainClass = 'TreeCrackinPOS.NextIntDemo2'
+//    mainClass = 'TreeCrackinPOS.TreeCodeGenTest'
 }

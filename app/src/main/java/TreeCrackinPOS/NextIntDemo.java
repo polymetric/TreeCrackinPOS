@@ -67,8 +67,7 @@ public class NextIntDemo {
             int boundBits = (int) (Math.log(bound) / Math.log(2));
             int rightShiftAmount = (int) (31 - boundBits);
             result >>>= rightShiftAmount;
-            result &= m;
-        } else {
+        } else { // bound is not a power of 2
             for (int result2 = result; result2 - (result = result2 % bound) + m < 0; result2 = next(31))
                 ;
         }
