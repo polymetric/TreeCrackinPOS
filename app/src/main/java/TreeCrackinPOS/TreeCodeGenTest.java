@@ -6,7 +6,7 @@ public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
         final int SEEDS_PER_KERNEL = 1;
         final int TREE_COUNT = 4;
-        final int TARGET_TREE = 3;
+        final int TARGET_TREE = 1;
 
         final String outfile = String.format("tree%d.cl", TARGET_TREE);
 
@@ -16,8 +16,8 @@ public class TreeCodeGenTest {
         int[][] trees = {
                 {   5,   8 }, // L4 - 0
                 {   6,  15 }, // L5 - 1
-                {  15,  15 }, // L6 - 2
-                {   0,  11 }, // L7 - 3
+                {   0,  11 }, // L6 - 2
+                {  15,  15 }, // L7 - 3
         };
 
         char[] treeTypes = {
@@ -30,22 +30,22 @@ public class TreeCodeGenTest {
         int[] treeHeights = {
                 5, // L4 - 0
                 5, // L5 - 1
-                6, // L6 - 2
-                4, // L7 - 3
+                4, // L6 - 2
+                6, // L7 - 3
         };
 
         char[][] treeLeaves = {
                 { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', }, // L4 - 0
                 { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', }, // L5 - 1
-                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', }, // L6 - 2
-                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', }, // L7 - 3
+                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', }, // L6 - 2
+                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', }, // L7 - 3
         };
 
         int[] knownLeaves = {
                 5, // L4 - 0
                 6, // L5 - 1
-                8, // L6 - 2
-                7, // L7 - 3
+                7, // L6 - 2
+                8, // L7 - 3
         };
 
         TreeKernelGenerator kernelGen = new TreeKernelGenerator();
