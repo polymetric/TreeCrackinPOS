@@ -11,14 +11,16 @@ import java.util.ArrayList;
 
 public class DFZDump {
     public static void main(String[] args) throws Exception {
-        final int THREAD_COUNT = 12;
-        final String SEEDS_IN = "I:\\shotPSeeds2\\tree_l7_seeds.txt";
-        final String DFZS_OUT = "I:\\shotPSeeds2\\tree_l7_seeds.txt";
+        final int THREAD_COUNT = 8;
+        final String SEEDS_IN = "I:\\shotPSeeds2\\tree_l5_seeds.txt";
+        final String DFZS_OUT = "I:\\shotPSeeds2\\tree_l5_dfzs.txt";
 
         long timeStart = System.currentTimeMillis();
         long totalSeeds = new File(SEEDS_IN).length() / 8;
 //        long totalSeeds = 33554432L;
-        InputStream seedsInStream = Files.newInputStream(Paths.get(SEEDS_IN));
+        InputStream seedsInStream = new BufferedInputStream(new FileInputStream(SEEDS_IN));
+        OutputStream dfzOutStream = new BufferedOutputStream(new FileOutputStream(DFZS_OUT));
+
         long seedsDone = 0;
 
         System.out.printf("opened file with %d seeds\n", totalSeeds);
@@ -30,22 +32,27 @@ public class DFZDump {
             long end = tasks_per_thread * (t + 1);
 
             int tid = t;
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    long seedsDone = 0;
-                    for (long seedIndex = start; seedIndex < end; seedIndex++) {
-                        long seed = getNextSeedFromFile(seedsInStream);
-                        long dfz = DiscreteLog.distanceFromZero(seed);
-                        if (seedsDone % 100000 == 0) {
-                            long now = System.currentTimeMillis();
-                            if (tid == 0) {
-                                System.out.printf("thread %2d: running at %15.3f sps\n", tid, seedsDone / ((now - timeStart) / 1e3));
-                                System.out.printf("thread %2d: progress: %15d/%15d, %6.2f\n", tid, seedsDone, (end-start), (double) seedsDone / (end-start) * 100);
-                            }
-                        }
-                        seedsDone++;
+            Thread thread = new Thread(() -> {
+                long seedsDone1 = 0;
+                ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+                for (long seedIndex = start; seedIndex < end; seedIndex++) {
+                    buffer.clear();
+                    buffer.putLong(DiscreteLog.distanceFromZero(getNextSeedFromFile(seedsInStream)));
+                    buffer.flip();
+                    try {
+                        dfzOutStream.write(buffer.array());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+                    if (seedsDone1 % 100000 == 0) {
+                        long now = System.currentTimeMillis();
+                        if (tid == 0) {
+                            System.out.printf("thread %2d: running at %15.3f sps\n", tid, seedsDone1 / ((now - timeStart) / 1e3));
+                            System.out.printf("thread %2d: progress: %15d/%15d, %6.2f\n", tid, seedsDone1, (end-start), (double) seedsDone1 / (end-start) * 100);
+                        }
+                    }
+                    seedsDone1++;
                 }
             });
             thread.start();
