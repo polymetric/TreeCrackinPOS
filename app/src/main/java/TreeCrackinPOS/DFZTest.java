@@ -5,10 +5,17 @@ import kaptainwutax.seedutils.lcg.LCG;
 public class DFZTest {
     public static void main(String[] args) {
         long seed = 0;
+
+        System.out.println(LCG.JAVA.combine(-1).multiplier);
+        System.out.println(LCG.JAVA.combine(-1).addend);
+
+        System.exit(0);
+
         for (int i = 0; i < 4; i++) {
             seed = LCG.JAVA.nextSeed(seed);
             System.out.println(seed);
 //            System.out.println(DiscreteLog.distanceFromZero(seed));
+
         }
 
 

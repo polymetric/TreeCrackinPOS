@@ -1,8 +1,6 @@
 package TreeCrackinPOS;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Utils {
     public static void writeStringToFile(String path, String contents) throws IOException {
@@ -14,5 +12,21 @@ public class Utils {
 
         writer.flush();
         writer.close();
+    }
+
+    public static String readFileToString(String path) throws IOException {
+        File file = new File(path);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+            sb.append("\n");
+        }
+
+        reader.close();
+
+        return sb.toString();
     }
 }

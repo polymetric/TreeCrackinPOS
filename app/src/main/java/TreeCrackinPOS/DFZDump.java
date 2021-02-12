@@ -15,6 +15,23 @@ public class DFZDump {
         final String SEEDS_IN = "I:\\shotPSeeds2\\tree_l5_seeds.txt";
         final String DFZS_OUT = "I:\\shotPSeeds2\\tree_l5_dfzs.txt";
 
+        // sanity checks because i accidentally overwrote an 8G file that took hours to generate lol
+        if (SEEDS_IN == DFZS_OUT) {
+            System.out.println("SEEDS_IN is identical to DFZS_OUT. this would result in overwriting the input file.");
+            System.out.println("stopping.");
+            System.exit(-1);
+        }
+        if (DFZS_OUT.contains("seeds")) {
+            System.out.println("DFZS_OUT might have accidentally been set to write to an input file this would result in overwriting!");
+            System.out.println("stopping.");
+            System.exit(-1);
+        }
+        if (new File(DFZS_OUT).exists()) {
+            System.out.println("DFZS_OUT already exists. this might result in overwriting data.");
+            System.out.println("stopping.");
+            System.exit(-1);
+        }
+
         long timeStart = System.currentTimeMillis();
         long totalSeeds = new File(SEEDS_IN).length() / 8;
 //        long totalSeeds = 33554432L;
@@ -61,7 +78,7 @@ public class DFZDump {
         for (Thread t : threads) {
             t.join();
         }
-        System.out.printf("done in %.3fs\n", (System.currentTimeMillis() - timeStart) / 1000);
+        System.out.printf("done in %.3fs\n", (System.currentTimeMillis() - timeStart) / 1000.0D);
     }
 
     static long[] convertToLongArray(byte[] bArray) {

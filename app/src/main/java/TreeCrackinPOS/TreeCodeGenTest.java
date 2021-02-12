@@ -14,31 +14,23 @@ public class TreeCodeGenTest {
         // the number after that " - 0" is the index in the array
         // which is what you use to set TARGET_TREE to
         int[][] trees = {
-                {   5,   8 }, // L4 - 0
-                {   6,  15 }, // L5 - 1
-                {   0,  11 }, // L6 - 2
-                {  15,  15 }, // L7 - 3
+                {   6,   2 },
+                {   2,   0 },
         };
 
         char[] treeTypes = {
-                'o', // L4 - 0
-                'b', // L5 - 1
-                'o', // L6 - 2
-                'o', // L7 - 3
+                'b',
+                'o',
         };
 
         int[] treeHeights = {
-                5, // L4 - 0
-                5, // L5 - 1
-                4, // L6 - 2
-                6, // L7 - 3
+                6,
+                5,
         };
 
         char[][] treeLeaves = {
-                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', }, // L4 - 0
-                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', }, // L5 - 1
-                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', }, // L6 - 2
-                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', }, // L7 - 3
+                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
+                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
         };
 
         int[] knownLeaves = {
@@ -54,6 +46,7 @@ public class TreeCodeGenTest {
         {
             kernelGen.rngCalls = 0;
             kernelGen.callOffset = i;
+            kernelGen.addCheck(16, Comparison.EQUAL, trees[TARGET_TREE][0]);
             kernelGen.addCheck(16, Comparison.EQUAL, trees[TARGET_TREE][1]);
             switch(treeTypes[TARGET_TREE]) {
                 case 'o': // oak
@@ -87,19 +80,22 @@ public class TreeCodeGenTest {
             kernelGen.callOffset += 1;
         }
 //        System.out.println(kernelGen.sb.toString());
-        Utils.writeStringToFile(outfile, kernelGen.sb.toString());
+        Utils.writeStringToFile(outfile, kernelGen.toString());
         System.out.println("total call checks per seed: " + kernelGen.rngCalls);
     }
 
     static class TreeKernelGenerator {
         public long rngCalls;
         public long callOffset;
-        public StringBuilder sb;
+        public StringBuilder mainSb;
+        public StringBuilder moduloSb;
+        public boolean auxTree;
 
         public TreeKernelGenerator() {
             rngCalls = 0;
             callOffset = 0;
-            sb = new StringBuilder();
+            mainSb = new StringBuilder();
+            auxTree = false;
         }
 
         public void addCheck(int bound, Comparison comparison, int target) {
@@ -112,7 +108,7 @@ public class TreeCodeGenTest {
                 int mask = bound - 1;
 
                 String parameterized = String.format(
-                        "if ((((baseSeed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) continue;",
+                        "if ((((seed * %15dL + %15dL) >> %2d) & %2d) %2s %2d) continue;",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                         lcg.multiplier,
                         lcg.addend,
@@ -121,12 +117,12 @@ public class TreeCodeGenTest {
                         comparisonStr,
                         target
                 );
-                sb.append(parameterized);
+                mainSb.append(parameterized);
             } else { // non power of 2 bound
                 int rightShift = 17;
 
                 String parameterized = String.format(
-                        "if ((((baseSeed * %15dLU + %15dLU) >> %2d) %% %2d) %2s %2d) continue;",
+                        "if ((((seed * %15dLU + %15dLU) >> %2d) %% %2d) %2s %2d) return;",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                         lcg.multiplier,
                         lcg.addend,
@@ -135,13 +131,18 @@ public class TreeCodeGenTest {
                         comparisonStr,
                         target
                 );
-                sb.append(parameterized);
+                mainSb.append(parameterized);
             }
-            sb.append('\n');
+            mainSb.append('\n');
         }
 
         public void addSkip(long steps) {
             rngCalls += steps;
+        }
+
+        public String toString() {
+            mainSb.append(moduloSb);
+            return mainSb.toString();
         }
     }
 
