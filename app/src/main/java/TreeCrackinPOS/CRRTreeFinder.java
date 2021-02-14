@@ -15,20 +15,28 @@ public class CRRTreeFinder {
         final int THREADS = 8;
         final int[] dfzs = new int[] { 3840, 4097, 3841, 4098, 4356, 4101, 4102, 4617, 4110, 4369, 4114, 3863, 4375, 4120, 3865, 3866, 4122, 3868, 4126, 3875, 3878, 3879, 3880, 3883, 4396, 3886, 4143, 3889, 4659, 4409, 3900, 3904, 3906, 3907, 3909, 3910, 4169, 4173, 4436, 3925, 3926, 3928, 3935, 4192, 3936, 4194, 3939, 4195, 3940, 4197, 4200, 3944, 4457, 3946, 3950, 3951, 3953, 3954, 3955, 4467, 3963, 3964, 3968, 3969, 3972, 3973, 3975, 3976, 3978, 4237, 3984, 4244, 3989, 4758, 3991, 3994, 3996, 4255, 4005, 4006, 4263, 4007, 4010, 4011, 4015, 4018, 4276, 4025, 4029, 4805, 4039, 4297, 4298, 4811, 4303, 4560, 5345, 4577, 4837, 3815, 4328, 4072, 4077, 4079, 4081, 4082, 3829, 4857, 4092, 3844, 3852, 3853, 3858, 3867, 3870, 3901, 3931, 3956, 3960, 3986, 3990, 3997, 3999, 4001, 4012, 4021, 4022, 4026, 4033, 4040, 4068, 3817, 3827, 3839, 3850, 3851, 3913, 4000, 4008, 3814, 3821, 3877, 3816, 3838, 3849, 3872, 3837, 3825, 3764, 3813, 3762, 3761, 3763, 3765, 3836, 3824, 3848, 3812, 3760, };
 //        final int[] dfzs = new int[] { 3760 };
-//        final int[] dfzs = new int[] { 3836, 3824, 3848, 3812};
+//        final int[] dfzs = new int[] { 3836, 3824, 3848, 3812, 3760 };
         final LCG rev1 = LCG.JAVA.combine(-1);
+        // SHOT P
         final int CHUNK_A_X = 7;
         final int CHUNK_A_Z = 13;
         final int CHUNK_B_X = 7;
         final int CHUNK_B_Z = 12;
+        // SEED 5
+//        final int CHUNK_A_X = 0;
+//        final int CHUNK_A_Z = 0;
+//        final int CHUNK_B_X = 0;
+//        final int CHUNK_B_Z = 2;
         final int TREE_CALL_RANGE = 220;
-        final String SEEDS_IN = "treeseeds.bin";
-        final String SEEDS_OUT = "worldseeds_try2.txt";
-        InputStream seedsInStream = new BufferedInputStream(new FileInputStream(SEEDS_IN));
+        final String SEEDS_IN = "treeseeds_shotp.txt";
+        final String SEEDS_OUT = "worldseeds_shotp_try2.txt";
+        String[] seedsIn = Utils.readFileToString(SEEDS_IN).split("\n");
         FileWriter seedsOutStream = new FileWriter(SEEDS_OUT);
-        long totalInputSeeds = new File(SEEDS_IN).length() / 8;
+        long totalInputSeeds = seedsIn.length;
         System.out.printf("opened file with %d seeds\n", totalInputSeeds);
         long approxTotalWorldSeedsToCheck = totalInputSeeds * dfzs.length * dfzs.length + 3;
+//        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * dfzs.length + 3;
+//        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * (4500 - (3760 - TREE_CALL_RANGE));
         AtomicLong worldSeedsDone = new AtomicLong();
         ArrayList<Thread> threads = new ArrayList<>();
         long timeStart = System.currentTimeMillis();
@@ -37,21 +45,25 @@ public class CRRTreeFinder {
         // basically what this code does is go through all the possible
         // dfzs between pop and tree gen, then gets a world seed from each of those, then
         // filters those by trying to generate trees in another chunk seed
-        for (int i = 0; i < totalInputSeeds; i++) {
-            long treeRegionSeedA = getNextSeedFromFile(seedsInStream);
+        for (int i = 0; i < seedsIn.length; i++) {
+            long treeRegionSeedA = Long.parseLong(seedsIn[i]);
 
             final int threadId = i;
             Thread thread = new Thread(() -> {
-                for (int dfzAIndex = 0; dfzAIndex < dfzs.length; dfzAIndex++) {
-                    for (int dfzBIndex = 0; dfzBIndex < dfzs.length; dfzBIndex++) {
-                        long popSeedA = LCG.JAVA.combine(-dfzs[dfzAIndex] - 1).nextSeed(treeRegionSeedA);
+//                for (int dfzA = 3760 - TREE_CALL_RANGE - 200; dfzA < 5500; dfzA++) {
+                for (int dfzIndexA = 0; dfzIndexA < dfzs.length; dfzIndexA++) {
+//                    long popSeedA = LCG.JAVA.combine((-dfzA) - 1).nextSeed(treeRegionSeedA);
+                    long popSeedA = LCG.JAVA.combine((-dfzs[dfzIndexA]) - 1).nextSeed(treeRegionSeedA);
+//                    for (int dfzB = 3760; dfzB < 5500; dfzB++) {
+                    for (int dfzIndexB = 0; dfzIndexB < dfzs.length; dfzIndexB++) {
 
                         for (long worldSeed : ChunkRandomReverser.reversePopulationSeed(popSeedA, CHUNK_A_X, CHUNK_A_Z, MCVersion.v1_8)) {
-                            long popSeedB = WorldToChunk.worldToChunk(worldSeed, CHUNK_A_X, CHUNK_A_Z);
-                            long treeRegionSeedB = LCG.JAVA.combine(dfzs[dfzBIndex] - 1).nextSeed(popSeedB);
+                            long popSeedB = WorldToChunk.worldToChunk(worldSeed, CHUNK_B_X, CHUNK_B_Z);
+                            long treeRegionSeedB = LCG.JAVA.combine(dfzs[dfzIndexB] - 1).nextSeed(popSeedB);
+//                            long treeRegionSeedB = LCG.JAVA.combine(dfzB).nextSeed(popSeedB);
 
                             boolean treesFound[] = new boolean[2];
-                            for (int callOffset = 0; callOffset < TREE_CALL_RANGE; callOffset++) {
+                            for (int callOffset = 0; callOffset < TREE_CALL_RANGE * 2; callOffset++) {
                                 treeRegionSeedB = LCG.JAVA.nextSeed(treeRegionSeedB);
 
                                 if (!treesFound[0]) {
@@ -62,9 +74,9 @@ public class CRRTreeFinder {
                                 }
 
                                 if (treesFound[0] && treesFound[1]) {
-//                                    System.out.println(worldSeed);
                                     try {
-                                        seedsOutStream.write(String.format("%d\n", worldSeed));
+                                        seedsOutStream.write(Long.toString(worldSeed ^ LCG.JAVA.multiplier) + "\n");
+                                        seedsOutStream.flush();
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -100,11 +112,11 @@ public class CRRTreeFinder {
                 }
 
                 lastTime = now;
-                System.out.printf("progress: %6d / %6d, %6.2f%%\n", worldSeedsDone.get(), approxTotalWorldSeedsToCheck, (double) (worldSeedsDone.get()) / approxTotalWorldSeedsToCheck * 100);
+                System.out.printf("progress: %6d / %6d, %6.2f%% results: %d\n", worldSeedsDone.get(), approxTotalWorldSeedsToCheck, (double) (worldSeedsDone.get()) / approxTotalWorldSeedsToCheck * 100, resultsCount.get());
             }
         }
 
-        System.out.printf("done, found %d resultsCount in %.2fs\n", resultsCount.get(), (System.currentTimeMillis() - timeStart) / 1000.0D);
+        System.out.printf("done, found %d results in %.2fs\n", resultsCount.get(), (System.currentTimeMillis() - timeStart) / 1000.0D);
     }
 
     static long getNextSeedFromFile(InputStream stream) {

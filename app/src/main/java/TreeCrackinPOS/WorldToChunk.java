@@ -20,6 +20,6 @@ public class WorldToChunk {
         long l1 = (rand.nextLong() / 2L) * 2L + 1L;
         long l2 = (rand.nextLong() / 2L) * 2L + 1L;
         long chunkSeed = (long) chunkX * l1 + (long) chunkZ * l2 ^ worldSeed;
-        return chunkSeed;
+        return chunkSeed & ((1L << 48) - 1);
     }
 }

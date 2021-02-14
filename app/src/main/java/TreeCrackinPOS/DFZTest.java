@@ -6,28 +6,19 @@ public class DFZTest {
     public static void main(String[] args) {
         long seed = 0;
 
-        System.out.println(LCG.JAVA.combine(-1).multiplier);
-        System.out.println(LCG.JAVA.combine(-1).addend);
-
-        System.exit(0);
-
-        for (int i = 0; i < 4; i++) {
-            seed = LCG.JAVA.nextSeed(seed);
-            System.out.println(seed);
-//            System.out.println(DiscreteLog.distanceFromZero(seed));
-
-        }
-
 
         long chunkSeed      =     25214903912L;
 ////                                25214903917L
         long treeRegionSeed = 197343751701400L;
-        long treeSeed1      =  14810236876615L;
-        long treeSeed2      =  40892402490042L;
+        long[] treeSeeds = {
+                197343751701400L,
+                36469969418861L,
+        };
 //
-        long dfz1 = DiscreteLog.distanceFromZero(chunkSeed);
+        long dfz1 = DiscreteLog.distanceFromZero(treeRegionSeed);
         System.out.println(DiscreteLog.distanceFromZero(treeRegionSeed) - dfz1);
-        System.out.println(DiscreteLog.distanceFromZero(treeSeed1) - dfz1);
-        System.out.println(DiscreteLog.distanceFromZero(treeSeed2) - dfz1);
+        for (long s : treeSeeds) {
+            System.out.println(DiscreteLog.distanceFromZero(s) - dfz1);
+        }
     }
 }

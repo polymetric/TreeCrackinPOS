@@ -2,53 +2,155 @@ package TreeCrackinPOS;
 
 import kaptainwutax.seedutils.lcg.LCG;
 
+import java.io.File;
+
 public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
-        final int SEEDS_PER_KERNEL = 1;
-        final int TREE_COUNT = 4;
-        final int TARGET_TREE = 1;
+        // SHOT P - CHUNK 7, 13
+//        int[][] trees = {
+//                {   5,   8 },
+//                {   6,  15 },
+//                {   0,  11 },
+//                {  15,  15 },
+//        };
+//
+//        char[] treeTypes = {
+//                'o',
+//                'b',
+//                'o',
+//                'o',
+//        };
+//
+//        int[] treeHeights = {
+//                5,
+//                5,
+//                4,
+//                6,
+//        };
+//
+//        char[][] treeLeaves = {
+//                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
+//                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
+//                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', },
+//                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
+//        };
+//
+//        int[] knownLeaves = {
+//
+//        };
 
-        final String outfile = String.format("tree%d.cl", TARGET_TREE);
+        // SHOT P - CHUNK 7, 12
+//        int[][] trees = {
+//                {  14,  10 },
+//                {  10,   8 },
+//        };
+//
+//        char[] treeTypes = {
+//                'b',
+//                'o',
+//        };
+//
+//        int[] treeHeights = {
+//                6,
+//                5,
+//        };
+//
+//        char[][] treeLeaves = {
+//                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
+//                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
+//        };
+//
+//        int[] knownLeaves = {
+//                8,
+//                4,
+//        };
 
-        // Ln is the number of the tree on the recreation,
-        // the number after that " - 0" is the index in the array
-        // which is what you use to set TARGET_TREE to
+        // SEED 5 - CHUNK 0, 0
+//        int[][] trees = {
+//                {   1,   1 },
+//                {   2,   8 },
+//                {  15,  10 },
+//                {  12,   2 },
+//                {   7,   3 },
+//                {   3,   4 },
+//                {   0,  12 },
+//        };
+//
+//        char[] treeTypes = {
+//                'o',
+//                'o',
+//                'o',
+//                'b',
+//                'o',
+//                'b',
+//                'o',
+//        };
+//
+//        int[] treeHeights = {
+//                5,
+//                4,
+//                5,
+//                5,
+//                6,
+//                6,
+//                4,
+//        };
+//
+//        char[][] treeLeaves = {
+//                { 'l', 'n', 'n', 'u', 'n', 'l', 'l', 'u', 'l', 'l', 'n', 'u', },
+//                { 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', 'n', 'n', 'n', 'l', },
+//                { 'n', 'l', 'l', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'u', },
+//                { 'l', 'n', 'l', 'n', 'u', 'l', 'n', 'n', 'l', 'n', 'n', 'l', },
+//                { 'l', 'l', 'u', 'u', 'l', 'l', 'u', 'u', 'l', 'u', 'u', 'u', },
+//                { 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'l', 'u', 'u', },
+//                { 'u', 'n', 'u', 'l', 'u', 'n', 'u', 'n', 'l', 'n', 'n', 'l', },
+//        };
+//
+//        int[] knownLeaves = {
+//                9,
+//                12,
+//                12,
+//                11,
+//                5,
+//                6,
+//                8,
+//        };
+
+        // SEED 5 - CHUNK 0, 2
         int[][] trees = {
-                {   6,   2 },
-                {   2,   0 },
+                {  13,   0 },
         };
 
         char[] treeTypes = {
-                'b',
                 'o',
         };
 
         int[] treeHeights = {
                 6,
-                5,
         };
 
         char[][] treeLeaves = {
-                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
-                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
+                { 'l', 'n', 'n', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', },
         };
 
         int[] knownLeaves = {
-                5, // L4 - 0
-                6, // L5 - 1
-                7, // L6 - 2
-                8, // L7 - 3
+                12,
         };
 
-        TreeKernelGenerator kernelGen = new TreeKernelGenerator();
-        // for every seed this kernel needs to check
-        for (int i = 0; i < SEEDS_PER_KERNEL; i++)
-        {
+        // remove existing files
+        for (int i = 0; i < 11; i++) {
+            File file = new File(String.format("tree%d.cl", i));
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+        for (int targetTree = 0; targetTree < trees.length; targetTree++) {
+            String outfile = String.format("tree%d.cl", targetTree);
+            TreeKernelGenerator kernelGen = new TreeKernelGenerator();
             kernelGen.rngCalls = 0;
-            kernelGen.callOffset = i;
-            kernelGen.addCheck(16, Comparison.EQUAL, trees[TARGET_TREE][0]);
-            kernelGen.addCheck(16, Comparison.EQUAL, trees[TARGET_TREE][1]);
-            switch(treeTypes[TARGET_TREE]) {
+//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]);
+//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]);
+            switch (treeTypes[targetTree]) {
                 case 'o': // oak
                     kernelGen.addCheck(5, Comparison.NOT_EQUAL, 0);
                     kernelGen.addCheck(10, Comparison.NOT_EQUAL, 0);
@@ -59,11 +161,12 @@ public class TreeCodeGenTest {
                 case 'B': // big oak
                     kernelGen.addCheck(5, Comparison.EQUAL, 0);
                     kernelGen.addCheck(10, Comparison.EQUAL, 0);
+                    break;
             }
-            kernelGen.addCheck(3, Comparison.EQUAL, treeHeights[TARGET_TREE] - 4);
+            kernelGen.addCheck(3, Comparison.EQUAL, treeHeights[targetTree] - 4);
             // leaves
             for (int j = 0; j < 12; j++) {
-                char leaf = treeLeaves[TARGET_TREE][j];
+                char leaf = treeLeaves[targetTree][j];
                 // if leaf is not unsure
                 if (leaf != 'u') {
                     if (leaf == 'l') {
@@ -76,12 +179,9 @@ public class TreeCodeGenTest {
                 }
             }
             kernelGen.addSkip(4);
-
-            kernelGen.callOffset += 1;
+            Utils.writeStringToFile(outfile, kernelGen.toString());
         }
-//        System.out.println(kernelGen.sb.toString());
-        Utils.writeStringToFile(outfile, kernelGen.toString());
-        System.out.println("total call checks per seed: " + kernelGen.rngCalls);
+//        System.out.println("total call checks per seed: " + kernelGen.rngCalls);
     }
 
     static class TreeKernelGenerator {
@@ -108,7 +208,7 @@ public class TreeCodeGenTest {
                 int mask = bound - 1;
 
                 String parameterized = String.format(
-                        "if ((((seed * %15dL + %15dL) >> %2d) & %2d) %2s %2d) continue;",
+                        "if ((((seed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) return;",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                         lcg.multiplier,
                         lcg.addend,
