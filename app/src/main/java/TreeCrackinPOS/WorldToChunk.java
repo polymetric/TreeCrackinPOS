@@ -17,9 +17,9 @@ public class WorldToChunk {
     public static long worldToChunk(long worldSeed, int chunkX, int chunkZ) {
         RandomOverride rand = new RandomOverride();
         rand.setSeed(worldSeed);
-        long l1 = (rand.nextLong() / 2L) * 2L + 1L;
-        long l2 = (rand.nextLong() / 2L) * 2L + 1L;
-        long chunkSeed = (long) chunkX * l1 + (long) chunkZ * l2 ^ worldSeed;
-        return chunkSeed & ((1L << 48) - 1);
+        long chunkSeedMultiplierX = (rand.nextLong() / 2L) * 2L + 1L;
+        long chunkSeedMultiplierZ = (rand.nextLong() / 2L) * 2L + 1L;
+        long chunkSeed = (long) chunkX * chunkSeedMultiplierX + (long) chunkZ * chunkSeedMultiplierZ ^ worldSeed;
+        return (chunkSeed & ((1L << 48) - 1)) ^ LCG.JAVA.multiplier;
     }
 }

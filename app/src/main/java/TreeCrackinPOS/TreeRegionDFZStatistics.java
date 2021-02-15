@@ -1,8 +1,6 @@
 package TreeCrackinPOS;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -25,7 +23,7 @@ public class TreeRegionDFZStatistics {
         }
 
         sortedDfzs = new ArrayList<>(dfzsMap.values());
-        Collections.sort(sortedDfzs, Comparator.comparing(DFZ::getOccurrences));
+        sortedDfzs.sort(Comparator.comparing(DFZ::getOccurrences));
 
         for (DFZ dfz : sortedDfzs) {
 //            System.out.printf("%4d occurred %3d times, with a %6.2f%% chance\n", dfz.dfz, dfz.occurrences, ((double) dfz.occurrences / totalDFZs) * 100);

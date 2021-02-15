@@ -31,7 +31,7 @@ public class TreeCodeGenTest {
 //        char[][] treeLeaves = {
 //                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
 //                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
-//                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'l', 'l', },
+//                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'u', 'l', },
 //                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
 //        };
 //
@@ -148,8 +148,8 @@ public class TreeCodeGenTest {
             String outfile = String.format("tree%d.cl", targetTree);
             TreeKernelGenerator kernelGen = new TreeKernelGenerator();
             kernelGen.rngCalls = 0;
-//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]);
-//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]);
+            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
+            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Y position
             switch (treeTypes[targetTree]) {
                 case 'o': // oak
                     kernelGen.addCheck(5, Comparison.NOT_EQUAL, 0);
@@ -241,7 +241,7 @@ public class TreeCodeGenTest {
         }
 
         public String toString() {
-            mainSb.append(moduloSb);
+//            mainSb.append(moduloSb);
             return mainSb.toString();
         }
     }
