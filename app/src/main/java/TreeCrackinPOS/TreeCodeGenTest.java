@@ -7,66 +7,71 @@ import java.io.File;
 public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
         // SHOT P - CHUNK 7, 13
-//        int[][] trees = {
-//                {  13,   0 },
-//                {  14,   7 },
-//                {   8,   3 }, // not sure about the height on this one
-//                {   7,   7 },
-//        };
-//
-//        char[] treeTypes = {
-//                'o',
-//                'b',
-//                'o',
-//                'o',
-//        };
-//
-//        int[] treeHeights = {
-//                5,
-//                5,
-//                4, // not sure about the height on this one
-//                6,
-//        };
-//
-//        char[][] treeLeaves = {
-//                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
-//                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
-//                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'u', 'l', },
-//                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
-//        };
-//
-//        int[] knownLeaves = {
-//                5,
-//                6,
-//                6,
-//                8,
-//        };
-
-        // SHOT P - CHUNK 7, 12
         int[][] trees = {
-                {  14,  10 },
-                {  10,   8 },
+                {  13,   0 },
+                {  14,   7 },
+                {   8,   3 }, // not sure about the height on this one
+                {   7,   7 },
+                {  11,  12 },
         };
 
         char[] treeTypes = {
+                'o',
                 'b',
+                'o',
+                'o',
                 'o',
         };
 
         int[] treeHeights = {
-                6,
                 5,
+                0, // not sure about the height on this one
+                0, // not sure about the height on this one
+                6,
+                0,
         };
 
         char[][] treeLeaves = {
-                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
-                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
+                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
+                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
+                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'u', 'l', },
+                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
+                { 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', },
         };
 
         int[] knownLeaves = {
+                5,
+                6,
+                6,
                 8,
-                4,
+                0,
         };
+
+        // SHOT P - CHUNK 7, 12
+//        int[][] trees = {
+//                {  14,  10 },
+//                {  10,   8 },
+//        };
+//
+//        char[] treeTypes = {
+//                'b',
+//                'o',
+//        };
+//
+//        int[] treeHeights = {
+//                6,
+//                5,
+//        };
+//
+//        char[][] treeLeaves = {
+//                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
+//                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
+//        };
+//
+//        int[] knownLeaves = {
+//                8,
+//                4,
+//        };
 
         // SEED 5 - CHUNK 0, 0
 //        int[][] trees = {
@@ -151,8 +156,8 @@ public class TreeCodeGenTest {
             String outfile = String.format("tree%d.cl", targetTree);
             TreeKernelGenerator kernelGen = new TreeKernelGenerator();
             kernelGen.rngCalls = 0;
-            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
-            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Y position
+//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
+//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Y position
             switch (treeTypes[targetTree]) {
                 case 'o': // oak
                     kernelGen.addCheck(5, Comparison.NOT_EQUAL, 0);
@@ -166,7 +171,11 @@ public class TreeCodeGenTest {
                     kernelGen.addCheck(10, Comparison.EQUAL, 0);
                     break;
             }
-            kernelGen.addCheck(3, Comparison.EQUAL, treeHeights[targetTree] - 4);
+            if (treeHeights[targetTree] != 0) {
+                kernelGen.addCheck(3, Comparison.EQUAL, treeHeights[targetTree] - 4);
+            } else {
+                kernelGen.addSkip(1);
+            }
             // leaves
             for (int j = 0; j < 12; j++) {
                 char leaf = treeLeaves[targetTree][j];

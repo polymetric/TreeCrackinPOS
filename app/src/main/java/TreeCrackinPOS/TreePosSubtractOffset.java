@@ -7,8 +7,11 @@ import static java.lang.Math.*;
 public class TreePosSubtractOffset {
     public static void main(String[] args) {
         final int[][] trees = {
-                { 134, 210 },
-                { 130, 208 },
+                { 133, 216, },
+                { 134, 223, },
+                { 128, 219, },
+                { 127, 223, },
+                { 131, 228, },
         };
         final int[][] popChunks = new int[trees.length][2];
         final int[][] popChunkOriginBlocks = new int[trees.length][2];
