@@ -17,7 +17,7 @@ public class CRRTreeFinder {
 //        final int[] dfzs = new int[] { 3760 };
         final int[] dfzs = new int[] { 3836, 3824, 3848, 3812, 3760 };
         final LCG rev1 = LCG.JAVA.combine(-1);
-        // SHOT P
+//         SHOT P
         final int CHUNK_A_X = 7;
         final int CHUNK_A_Z = 13;
         final int CHUNK_B_X = 7;
@@ -28,16 +28,16 @@ public class CRRTreeFinder {
 //        final int CHUNK_B_X = 0;
 //        final int CHUNK_B_Z = 2;
         final int TREE_CALL_RANGE = 220*2;
-        final String SEEDS_IN = "treeseeds_shotp_2.txt";
-        final String SEEDS_OUT = "worldseeds_shotp_try3.txt";
+        final String SEEDS_IN = "treeseeds_shotp_4.txt";
+        final String SEEDS_OUT = "worldseeds_shotp_try4.txt";
 //        final String SEEDS_IN = "treeseeds.txt";
 //        final String SEEDS_OUT = "worldseeds_seed5_try1.txt";
         String[] seedsIn = Utils.readFileToString(SEEDS_IN).split("\n");
         FileWriter seedsOutStream = new FileWriter(SEEDS_OUT);
         long totalInputSeeds = seedsIn.length;
         System.out.printf("opened file with %d seeds\n", totalInputSeeds);
-//        long approxTotalWorldSeedsToCheck = totalInputSeeds * dfzs.length * dfzs.length + 3;
-        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * dfzs.length + 3;
+        long approxTotalWorldSeedsToCheck = totalInputSeeds * dfzs.length * dfzs.length + 3;
+//        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * dfzs.length + 3;
 //        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * (4500 - (3760 - TREE_CALL_RANGE));
         AtomicLong worldSeedsDone = new AtomicLong();
         ArrayList<Thread> threads = new ArrayList<>();
@@ -58,13 +58,12 @@ public class CRRTreeFinder {
             final int threadId = i;
             Thread thread = new Thread(() -> {
                 System.out.printf("started thread %4d with seed %15d\n", threadId, treeRegionSeedA);
-                for (int dfzA = 3760 - TREE_CALL_RANGE; dfzA < 5500; dfzA++) {
-//                for (int dfzIndexA = 0; dfzIndexA < dfzs.length; dfzIndexA++) {
-                    long popSeedA = LCG.JAVA.combine((-dfzA) - 1).nextSeed(treeRegionSeedA);
-//                    long popSeedA = LCG.JAVA.combine((-dfzs[dfzIndexA]) - 1).nextSeed(treeRegionSeedA);
+//                for (int dfzA = 3760 - TREE_CALL_RANGE; dfzA < 5500; dfzA++) {
+                for (int dfzIndexA = 0; dfzIndexA < dfzs.length; dfzIndexA++) {
+//                    long popSeedA = LCG.JAVA.combine((-dfzA) - 1).nextSeed(treeRegionSeedA);
+                    long popSeedA = LCG.JAVA.combine((-dfzs[dfzIndexA]) - 1).nextSeed(treeRegionSeedA);
 //                    for (int dfzB = 3760; dfzB < 5500; dfzB++) {
                     for (int dfzIndexB = 0; dfzIndexB < dfzs.length; dfzIndexB++) {
-
                         for (long worldSeed : ChunkRandomReverser.reversePopulationSeed(popSeedA ^ LCG.JAVA.multiplier, CHUNK_A_X, CHUNK_A_Z, MCVersion.v1_8)) {
                             long popSeedB = WorldToChunk.worldToChunk(worldSeed, CHUNK_B_X, CHUNK_B_Z);
                             long treeRegionSeedB = LCG.JAVA.combine(dfzs[dfzIndexB] - 1).nextSeed(popSeedB);
@@ -96,39 +95,39 @@ public class CRRTreeFinder {
                                     break;
                                 }
                             }
-
                             worldSeedsDone.getAndIncrement();
                         }
                     }
                 }
+                System.out.printf("finished thread %4d\n", threadId, treeRegionSeedA);
             });
             threads.add(thread);
         }
 
-        ArrayList<Thread> threadsToRemove = new ArrayList<>();
         long now = System.currentTimeMillis();
         long lastTime = now;
-        int threadCount = 0;
+        int threadsAlive = 0;
         boolean[] threadsStarted = new boolean[threads.size()];
+        boolean[] threadsDone = new boolean[threads.size()];
+        boolean done = false;
 
-        while (threads.size() > 0) {
+        while (!done) {
             now = System.currentTimeMillis();
             if (now - lastTime > 250) {
-                threadsToRemove.clear();
                 for (int i = 0; i < threads.size(); i++) {
                     Thread t = threads.get(i);
-                    if (threadCount < THREADS && !threadsStarted[i]) {
+                    if (threadsAlive < THREADS && !threadsStarted[i]) {
                         t.start();
-                        threadCount++;
+                        threadsAlive++;
                         threadsStarted[i] = true;
                     }
-                    if (!t.isAlive()) {
-                        threadsToRemove.add(t);
+                    if (!t.isAlive() && threadsStarted[i] && !threadsDone[i]) {
+                        threadsAlive--;
+                        threadsDone[i] = true;
+                        if (threadsAlive <= 0) {
+                            done = true;
+                        }
                     }
-                }
-                for (Thread t : threadsToRemove) {
-                    threads.remove(t);
-                    threadCount--;
                 }
 
                 lastTime = now;
@@ -208,8 +207,8 @@ public class CRRTreeFinder {
         if ((((seed * 118637304785629L + 262259097190887L) >> 47) &  1) !=  1) return false;
         if ((((seed *  12659659028133L + 156526639281273L) >> 47) &  1) !=  1) return false;
         if ((((seed * 120681609298497L +  14307911880080L) >> 47) &  1) !=  1) return false;
-//        if (((((seed * 233752471717045L +  11718085204285L) >> 17) %  5) & ((1 << 31) - 1)) !=  0) return false;
-//        if (((((seed *  55986898099985L +  49720483695876L) >> 17) %  3) & ((1 << 31) - 1)) !=  2) return false;
+        if ((((seed * 233752471717045L +  11718085204285L) >> 17) %  5) !=  0) return false;
+        if ((((seed *  55986898099985L +  49720483695876L) >> 17) %  3) !=  2) return false;
 
         return true;
     }
@@ -221,9 +220,9 @@ public class CRRTreeFinder {
         if ((((seed *  19927021227657L + 127911637363266L) >> 47) &  1) !=  1) return false;
         if ((((seed *  28158748839985L + 233987836661708L) >> 47) &  1) !=  1) return false;
         if ((((seed * 120681609298497L +  14307911880080L) >> 47) &  1) !=  1) return false;
-//        if (((((seed * 233752471717045L +  11718085204285L) >> 17) %  5) & ((1 << 31) - 1)) ==  0) return false;
-//        if (((((seed *  55986898099985L +  49720483695876L) >> 17) % 10) & ((1 << 31) - 1)) ==  0) return false;
-//        if (((((seed * 120950523281469L + 102626409374399L) >> 17) %  3) & ((1 << 31) - 1)) !=  1) return false;
+        if ((((seed * 233752471717045L +  11718085204285L) >> 17) %  5) ==  0) return false;
+        if ((((seed *  55986898099985L +  49720483695876L) >> 17) % 10) ==  0) return false;
+        if ((((seed * 120950523281469L + 102626409374399L) >> 17) %  3) !=  1) return false;
 
         return true;
     }

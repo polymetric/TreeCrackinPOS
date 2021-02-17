@@ -11,10 +11,10 @@ public class CRRTreesFinderSanityCheck {
         long treeSeed00 = 36469969418861L;
 //        System.out.println(checkTreeSeed5(treeSeed02));
 
-        for (Long l : ChunkRandomReverser.reversePopulationSeed(LCG.JAVA.combine(-3787).nextSeed(treeSeed00), 0, 0, MCVersion.v1_8)) {
-            System.out.println(l ^ LCG.JAVA.multiplier);
+        for (Long l : ChunkRandomReverser.reversePopulationSeed(LCG.JAVA.combine(-3787).nextSeed(treeSeed00) ^ LCG.JAVA.multiplier, 0, 0, MCVersion.v1_8)) {
+            System.out.println(l);
         }
-//        System.out.println(WorldToChunk.worldToChunk(5, 0, 2));
+        System.out.println(WorldToChunk.worldToChunk(5, 0, 2));
     }
 
     static int checkTreeSeed5(long seed) {

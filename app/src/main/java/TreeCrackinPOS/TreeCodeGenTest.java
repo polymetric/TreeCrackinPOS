@@ -8,10 +8,10 @@ public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
         // SHOT P - CHUNK 7, 13
 //        int[][] trees = {
-//                {   5,   8 },
-//                {   6,  15 },
-//                {   0,  11 },
-//                {  15,  15 },
+//                {  13,   0 },
+//                {  14,   7 },
+//                {   8,   3 }, // not sure about the height on this one
+//                {   7,   7 },
 //        };
 //
 //        char[] treeTypes = {
@@ -24,7 +24,7 @@ public class TreeCodeGenTest {
 //        int[] treeHeights = {
 //                5,
 //                5,
-//                4,
+//                4, // not sure about the height on this one
 //                6,
 //        };
 //
@@ -36,34 +36,37 @@ public class TreeCodeGenTest {
 //        };
 //
 //        int[] knownLeaves = {
-//
+//                5,
+//                6,
+//                6,
+//                8,
 //        };
 
         // SHOT P - CHUNK 7, 12
-//        int[][] trees = {
-//                {  14,  10 },
-//                {  10,   8 },
-//        };
-//
-//        char[] treeTypes = {
-//                'b',
-//                'o',
-//        };
-//
-//        int[] treeHeights = {
-//                6,
-//                5,
-//        };
-//
-//        char[][] treeLeaves = {
-//                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
-//                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
-//        };
-//
-//        int[] knownLeaves = {
-//                8,
-//                4,
-//        };
+        int[][] trees = {
+                {  14,  10 },
+                {  10,   8 },
+        };
+
+        char[] treeTypes = {
+                'b',
+                'o',
+        };
+
+        int[] treeHeights = {
+                6,
+                5,
+        };
+
+        char[][] treeLeaves = {
+                { 'l', 'u', 'l', 'u', 'n', 'u', 'l', 'n', 'l', 'u', 'l', 'l', },
+                { 'u', 'u', 'n', 'u', 'l', 'u', 'l', 'u', 'u', 'u', 'l', 'u', },
+        };
+
+        int[] knownLeaves = {
+                8,
+                4,
+        };
 
         // SEED 5 - CHUNK 0, 0
 //        int[][] trees = {
@@ -117,25 +120,25 @@ public class TreeCodeGenTest {
 //        };
 
         // SEED 5 - CHUNK 0, 2
-        int[][] trees = {
-                {  13,   0 },
-        };
-
-        char[] treeTypes = {
-                'o',
-        };
-
-        int[] treeHeights = {
-                6,
-        };
-
-        char[][] treeLeaves = {
-                { 'l', 'n', 'n', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', },
-        };
-
-        int[] knownLeaves = {
-                12,
-        };
+//        int[][] trees = {
+//                {  13,   0 },
+//        };
+//
+//        char[] treeTypes = {
+//                'o',
+//        };
+//
+//        int[] treeHeights = {
+//                6,
+//        };
+//
+//        char[][] treeLeaves = {
+//                { 'l', 'n', 'n', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l', },
+//        };
+//
+//        int[] knownLeaves = {
+//                12,
+//        };
 
         // remove existing files
         for (int i = 0; i < 11; i++) {

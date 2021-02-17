@@ -4,7 +4,10 @@ public class TreeLeafCounter {
     // count known leaves
     public static void main(String[] args) {
         char[][] treeLeaves = {
-                {'l', 'n', 'n', 'l', 'n', 'n', 'l', 'l', 'l', 'n', 'n', 'l',},
+                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
+                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
+                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'u', 'l', },
+                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
         };
 
         for (int tree = 0; tree < treeLeaves.length; tree++) {
