@@ -12,6 +12,7 @@ public class TreePosSubtractOffset {
                 { 128, 219, },
                 { 127, 223, },
                 { 131, 228, },
+                { 122, 230, },
         };
         final int[][] popChunks = new int[trees.length][2];
         final int[][] popChunkOriginBlocks = new int[trees.length][2];

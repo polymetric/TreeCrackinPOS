@@ -7,12 +7,16 @@ import java.io.File;
 public class TreeCodeGenTest {
     public static void main(String[] args) throws Exception {
         // SHOT P - CHUNK 7, 13
+        final boolean CHECK_X_AND_Z = false;
+        final int PRIMARY_TREE = 3;
+
         int[][] trees = {
                 {  13,   0 },
                 {  14,   7 },
-                {   8,   3 }, // not sure about the height on this one
-                {   7,   7 },
+                {   8,   3 },
+                {   7,   7 }, // primary
                 {  11,  12 },
+                {   2,  14 },
         };
 
         char[] treeTypes = {
@@ -21,30 +25,34 @@ public class TreeCodeGenTest {
                 'o',
                 'o',
                 'o',
+                'o',
         };
 
         int[] treeHeights = {
-                5,
-                0, // not sure about the height on this one
-                0, // not sure about the height on this one
                 6,
+                5,
                 0,
+                6,
+                4,
+                6,
         };
 
-        char[][] treeLeaves = {
-                { 'u', 'u', 'u', 'l', 'u', 'u', 'u', 'n', 'l', 'u', 'n', 'l', },
-                { 'n', 'u', 'l', 'u', 'l', 'u', 'n', 'u', 'n', 'u', 'n', 'u', },
-                { 'l', 'u', 'u', 'n', 'n', 'u', 'u', 'l', 'n', 'u', 'u', 'l', },
-                { 'u', 'u', 'n', 'n', 'n', 'u', 'n', 'n', 'n', 'u', 'n', 'n', },
-                { 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', },
+        String[] treeLeaves = {
+                "uuuluuunlunl",
+                "nululunununu",
+                "uuunnuulnuul",
+                "uunununnnunn",
+                "uuuuluuuuuuu",
+                "uulununununl",
         };
 
         int[] knownLeaves = {
                 5,
                 6,
+                5,
+                7,
+                1,
                 6,
-                8,
-                0,
         };
 
         // SHOT P - CHUNK 7, 12
@@ -156,8 +164,20 @@ public class TreeCodeGenTest {
             String outfile = String.format("tree%d.cl", targetTree);
             TreeKernelGenerator kernelGen = new TreeKernelGenerator();
             kernelGen.rngCalls = 0;
-//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
-//            kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Y position
+            if (CHECK_X_AND_Z) {
+                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
+                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Z position
+            } else if (targetTree == PRIMARY_TREE) {
+                // we don't check X position because the kernel already uses that to determine
+                // the first 4 bits of the seed
+//                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
+                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Z position
+            } else {
+                // if this is meant for the GPU kernel, we don't check X or Z because the kernel
+                // already does that
+//                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
+//                kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][1]); // check Z position
+            }
             switch (treeTypes[targetTree]) {
                 case 'o': // oak
                     kernelGen.addCheck(5, Comparison.NOT_EQUAL, 0);
@@ -178,7 +198,7 @@ public class TreeCodeGenTest {
             }
             // leaves
             for (int j = 0; j < 12; j++) {
-                char leaf = treeLeaves[targetTree][j];
+                char leaf = treeLeaves[targetTree].charAt(j);
                 // if leaf is not unsure
                 if (leaf != 'u') {
                     if (leaf == 'l') {
@@ -207,6 +227,7 @@ public class TreeCodeGenTest {
             rngCalls = 0;
             callOffset = 0;
             mainSb = new StringBuilder();
+            moduloSb = new StringBuilder();
             auxTree = false;
         }
 
@@ -230,6 +251,7 @@ public class TreeCodeGenTest {
                         target
                 );
                 mainSb.append(parameterized);
+                mainSb.append('\n');
             } else { // non power of 2 bound
                 int rightShift = 17;
 
@@ -243,9 +265,9 @@ public class TreeCodeGenTest {
                         comparisonStr,
                         target
                 );
-                mainSb.append(parameterized);
+                moduloSb.append(parameterized);
+                moduloSb.append('\n');
             }
-            mainSb.append('\n');
         }
 
         public void addSkip(long steps) {
@@ -253,7 +275,8 @@ public class TreeCodeGenTest {
         }
 
         public String toString() {
-//            mainSb.append(moduloSb);
+            // we put the modulos at the end because they tend to be slower
+            mainSb.append(moduloSb);
             return mainSb.toString();
         }
     }
