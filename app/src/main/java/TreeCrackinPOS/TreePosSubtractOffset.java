@@ -1,18 +1,19 @@
 package TreeCrackinPOS;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static java.lang.Math.*;
 
 public class TreePosSubtractOffset {
     public static void main(String[] args) {
         final int[][] trees = {
-                { 133, 216, },
-                { 134, 223, },
-                { 128, 219, },
-                { 127, 223, },
-                { 131, 228, },
-                { 122, 230, },
+                { -344, 203, },
+                { -354, 205, },
+                { -348, 206, },
+                { -356, 208, },
+                { -358, 211, },
+                { -353, 214, },
         };
         final int[][] popChunks = new int[trees.length][2];
         final int[][] popChunkOriginBlocks = new int[trees.length][2];

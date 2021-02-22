@@ -4,12 +4,12 @@ public class TreeLeafCounter {
     // count known leaves
     public static void main(String[] args) {
         String[] treeLeaves = {
-                "uuuluuunlunl",
-                "nululunununu",
-                "uuunnuulnuul",
-                "uunununnnunn",
-                "uuuuluuuuuuu",
-                "uulununununl",
+                "nulululnlulu",
+                "nuuuluunllun",
+                "uunuulnunlnu",
+                "luuunuullulu",
+                "nuuuluunnulu",
+                "nululnlllulu",
         };
 
         for (int tree = 0; tree < treeLeaves.length; tree++) {

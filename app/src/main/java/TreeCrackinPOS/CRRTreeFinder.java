@@ -28,16 +28,16 @@ public class CRRTreeFinder {
 //        final int CHUNK_B_X = 0;
 //        final int CHUNK_B_Z = 2;
         final int TREE_CALL_RANGE = 220*2;
-        final String SEEDS_IN = "treeseeds_shotp_4.txt";
-        final String SEEDS_OUT = "worldseeds_shotp_try4.txt";
+        final String SEEDS_IN = "treeseeds_shotp_12.txt";
+        final String SEEDS_OUT = "worldseeds_shotp_try5.txt";
 //        final String SEEDS_IN = "treeseeds.txt";
 //        final String SEEDS_OUT = "worldseeds_seed5_try1.txt";
         String[] seedsIn = Utils.readFileToString(SEEDS_IN).split("\n");
         FileWriter seedsOutStream = new FileWriter(SEEDS_OUT);
         long totalInputSeeds = seedsIn.length;
         System.out.printf("opened file with %d seeds\n", totalInputSeeds);
-        long approxTotalWorldSeedsToCheck = totalInputSeeds * dfzs.length * dfzs.length + 3;
-//        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * dfzs.length + 3;
+//        long approxTotalWorldSeedsToCheck = totalInputSeeds * dfzs.length * dfzs.length + 3;
+        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * dfzs.length + 3;
 //        long approxTotalWorldSeedsToCheck = totalInputSeeds * (4500 - (3760 - TREE_CALL_RANGE)) * (4500 - (3760 - TREE_CALL_RANGE));
         AtomicLong worldSeedsDone = new AtomicLong();
         ArrayList<Thread> threads = new ArrayList<>();
@@ -57,11 +57,11 @@ public class CRRTreeFinder {
 
             final int threadId = i;
             Thread thread = new Thread(() -> {
-                System.out.printf("started thread %4d with seed %15d\n", threadId, treeRegionSeedA);
-//                for (int dfzA = 3760 - TREE_CALL_RANGE; dfzA < 5500; dfzA++) {
-                for (int dfzIndexA = 0; dfzIndexA < dfzs.length; dfzIndexA++) {
-//                    long popSeedA = LCG.JAVA.combine((-dfzA) - 1).nextSeed(treeRegionSeedA);
-                    long popSeedA = LCG.JAVA.combine((-dfzs[dfzIndexA]) - 1).nextSeed(treeRegionSeedA);
+//                System.out.printf("started thread %4d with seed %15d\n", threadId, treeRegionSeedA);
+                for (int dfzA = 3760 - TREE_CALL_RANGE; dfzA < 5500; dfzA++) {
+//                for (int dfzIndexA = 0; dfzIndexA < dfzs.length; dfzIndexA++) {
+                    long popSeedA = LCG.JAVA.combine((-dfzA) - 1).nextSeed(treeRegionSeedA);
+//                    long popSeedA = LCG.JAVA.combine((-dfzs[dfzIndexA]) - 1).nextSeed(treeRegionSeedA);
 //                    for (int dfzB = 3760; dfzB < 5500; dfzB++) {
                     for (int dfzIndexB = 0; dfzIndexB < dfzs.length; dfzIndexB++) {
                         for (long worldSeed : ChunkRandomReverser.reversePopulationSeed(popSeedA ^ LCG.JAVA.multiplier, CHUNK_A_X, CHUNK_A_Z, MCVersion.v1_8)) {
@@ -99,7 +99,7 @@ public class CRRTreeFinder {
                         }
                     }
                 }
-                System.out.printf("finished thread %4d\n", threadId, treeRegionSeedA);
+//                System.out.printf("finished thread %4d\n", threadId, treeRegionSeedA);
             });
             threads.add(thread);
         }
@@ -208,7 +208,7 @@ public class CRRTreeFinder {
         if ((((seed *  12659659028133L + 156526639281273L) >> 47) &  1) !=  1) return false;
         if ((((seed * 120681609298497L +  14307911880080L) >> 47) &  1) !=  1) return false;
         if ((((seed * 233752471717045L +  11718085204285L) >> 17) %  5) !=  0) return false;
-        if ((((seed *  55986898099985L +  49720483695876L) >> 17) %  3) !=  2) return false;
+        if ((((seed *  55986898099985L +  49720483695876L) >> 17) %  3) !=  1) return false;
 
         return true;
     }

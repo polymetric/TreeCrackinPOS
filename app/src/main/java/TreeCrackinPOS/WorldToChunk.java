@@ -5,9 +5,9 @@ import kaptainwutax.seedutils.lcg.LCG;
 public class WorldToChunk {
     // world seed -> chunk seed
     public static void main(String[] args) {
-        long worldSeed = 5;
-        int chunkX = -5;
-        int chunkZ = 7;
+        long worldSeed = -2153104111571157746L;
+        int chunkX = -23;
+        int chunkZ = 12;
 
         long chunkSeed = worldToChunk(worldSeed, chunkX, chunkZ);
         System.out.println(chunkSeed);
