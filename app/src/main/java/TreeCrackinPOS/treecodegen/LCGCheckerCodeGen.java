@@ -3,19 +3,19 @@ package TreeCrackinPOS.treecodegen;
 import TreeCrackinPOS.TreeCodeGenTest;
 import kaptainwutax.seedutils.lcg.LCG;
 
-public class TreeCheckerGen {
+public class LCGCheckerCodeGen {
     public long rngCalls;
     public long callOffset;
     public StringBuilder mainSb;
     public StringBuilder moduloSb;
-    public boolean auxTree;
+    public String returnValue = null;
+    public String comment = "";
 
-    public TreeCheckerGen() {
+    public LCGCheckerCodeGen() {
         rngCalls = 0;
         callOffset = 0;
         mainSb = new StringBuilder();
         moduloSb = new StringBuilder();
-        auxTree = false;
     }
 
     public void addCheck(int bound, Comparison comparison, int target) {
@@ -28,22 +28,25 @@ public class TreeCheckerGen {
             int mask = bound - 1;
 
             String parameterized = String.format(
-                    "if ((((seed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) return 0;",
+                    "if ((((seed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) return %s; // %s",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                     lcg.multiplier,
                     lcg.addend,
                     rightShift,
                     mask,
                     comparisonStr,
-                    target
+                    target,
+                    returnValue,
+                    comment
             );
+            comment = "";
             mainSb.append(parameterized);
             mainSb.append('\n');
         } else { // non power of 2 bound
             int rightShift = 17;
 
             String parameterized = String.format(
-                    "if (((((seed * %15dLU + %15dLU) & %15dLU) >> %2d) %% %2d) %2s %2d) return 0;",
+                    "if (((((seed * %15dLU + %15dLU) & %15dLU) >> %2d) %% %2d) %2s %2d) return %s; // %s",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                     lcg.multiplier,
                     lcg.addend,
@@ -51,8 +54,11 @@ public class TreeCheckerGen {
                     rightShift,
                     bound,
                     comparisonStr,
-                    target
+                    target,
+                    returnValue,
+                    comment
             );
+            comment = "";
             moduloSb.append(parameterized);
             moduloSb.append('\n');
         }
@@ -60,6 +66,10 @@ public class TreeCheckerGen {
 
     public void addSkip(long steps) {
         rngCalls += steps;
+    }
+
+    public void addComment(String comment) {
+        this.comment = comment;
     }
 
     public String toString() {

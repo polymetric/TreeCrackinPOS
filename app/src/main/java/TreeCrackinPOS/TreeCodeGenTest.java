@@ -1,8 +1,7 @@
 package TreeCrackinPOS;
 
 import TreeCrackinPOS.treecodegen.Comparison;
-import TreeCrackinPOS.treecodegen.TreeCheckerGen;
-import kaptainwutax.seedutils.lcg.LCG;
+import TreeCrackinPOS.treecodegen.LCGCheckerCodeGen;
 
 import java.io.File;
 
@@ -150,7 +149,7 @@ public class TreeCodeGenTest {
         }
         for (int targetTree = 0; targetTree < trees.length; targetTree++) {
             String outfile = String.format("tree%d.cl", targetTree);
-            TreeCheckerGen kernelGen = new TreeCheckerGen();
+            LCGCheckerCodeGen kernelGen = new LCGCheckerCodeGen();
             kernelGen.rngCalls = 0;
             if (CHECK_X_AND_Z) {
                 kernelGen.addCheck(16, Comparison.EQUAL, trees[targetTree][0]); // check X position
