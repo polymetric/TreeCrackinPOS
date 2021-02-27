@@ -1,6 +1,5 @@
-package TreeCrackinPOS.treecodegen;
+package TreeCrackinPOS.codegen;
 
-import TreeCrackinPOS.TreeCodeGenTest;
 import kaptainwutax.seedutils.lcg.LCG;
 
 public class LCGCheckerCodeGen {

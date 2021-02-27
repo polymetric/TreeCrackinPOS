@@ -5,6 +5,9 @@ import java.util.Comparator;
 
 public class SortByDFZ {
     public static void main(String[] args) throws Exception {
+        final String seedsInPath = "treeseeds_shotn.txt";
+        final String seedsOutPath = "treeseeds_shotn_sorted.txt";
+
 //        long[] treeSeeds = {
 //                197343751701400L,
 //                238584318639607L,
@@ -18,7 +21,7 @@ public class SortByDFZ {
 //                210112431842404L,
 //                91358059325155L,
 //        };
-        String[] seedsIn = Utils.readFileToString("treeseeds_shotp_3.txt").split("\n");
+        String[] seedsIn = Utils.readFileToString(seedsInPath).split("\n");
         StringBuilder seedsOut = new StringBuilder();
         ArrayList<Seed> seedsList = new ArrayList<Seed>();
 
@@ -41,7 +44,7 @@ public class SortByDFZ {
             seedsOut.append(String.format("%15d\n", seed.seed));
         }
 
-        Utils.writeStringToFile("treeseeds_shotp_3_sorted.txt", seedsOut.toString());
+        Utils.writeStringToFile(seedsOutPath, seedsOut.toString());
     }
 
     public static class Seed {

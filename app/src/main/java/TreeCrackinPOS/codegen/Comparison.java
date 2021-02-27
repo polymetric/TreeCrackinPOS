@@ -1,4 +1,4 @@
-package TreeCrackinPOS.treecodegen;
+package TreeCrackinPOS.codegen;
 
 public enum Comparison {
     EQUAL,

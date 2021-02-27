@@ -1,66 +1,141 @@
 package TreeCrackinPOS;
 
-import TreeCrackinPOS.treecodegen.Comparison;
-import TreeCrackinPOS.treecodegen.LCGCheckerCodeGen;
+import TreeCrackinPOS.codegen.Comparison;
+import TreeCrackinPOS.codegen.LCGCheckerCodeGen;
 
 import java.io.File;
 
 public class TaigaCodeGen {
     public static void main(String[] args) throws Exception {
         // SHOT N - CHUNK -7, 22
-        final boolean CHECK_X_AND_Z = false;
+//        final boolean CHECK_X_AND_Z = false;
+//        final int PRIMARY_TREE = 0;
+//        int[][] trees = {
+//                {   9,  13 },
+//                {   8,  10 },
+//                {   9,   5 },
+//                {   4,   3 },
+//                {   6,  13 },
+//                {  13,   8 },
+//        };
+//
+//        char[] treeTypes = {
+//                '1',
+//                '2',
+//                '2',
+//                '1',
+//                '2',
+//                '1',
+//        };
+//
+//        int[] treeTotalHeights = {
+//                9,
+//                7,
+//                8,
+//                10,
+//                0,
+//                0,
+//        };
+//
+//        int[] treeBaseHeights = {
+//                6,
+//                1,
+//                2,
+//                6,
+//                1,
+//                -1,
+//        };
+//
+//        int[] treeLeafHeights = {
+//                3,
+//                -1,
+//                -1,
+//                4,
+//                -1,
+//                -1,
+//        };
+//
+//        int[] treeRadiuses = {
+//                2,
+//                2,
+//                2,
+//                1,
+//                2,
+//                -1,
+//        };
+//
+//        int[] treeInitialRadiuses = {
+//                -1,
+//                0,
+//                0,
+//                -1,
+//                -1,
+//                -1,
+//        };
+//
+//        int[] treeTopLeaves = {
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//        };
+
+        // TEST SEED CHUNK
+        final boolean CHECK_X_AND_Z = true;
         final int PRIMARY_TREE = 0;
         int[][] trees = {
-                {   9,  13 },
-                {   8,  10 },
-                {   9,   5 },
-                {   4,   3 },
-                {   6,  13 },
+                {   5,   2 },
+                {  11,   5 },
+                {  11,   2 },
+                {  12,  11 },
+                {   1,  15 },
         };
 
         char[] treeTypes = {
                 '1',
-                '2',
-                '2',
                 '1',
                 '2',
+                '1',
+                '1',
         };
 
         int[] treeTotalHeights = {
-                9,
-                7,
                 8,
-                10,
-                0,
+                11,
+                6,
+                8,
+                9,
         };
 
         int[] treeBaseHeights = {
-                6,
-                1,
+                -1,
+                -1,
                 2,
-                6,
-                1,
+                -1,
+                -1,
         };
 
         int[] treeLeafHeights = {
+                4,
                 3,
                 -1,
-                -1,
-                4,
-                -1,
+                3,
+                3,
         };
 
         int[] treeRadiuses = {
+                3,
                 2,
                 2,
                 2,
                 1,
-                2,
         };
 
         int[] treeInitialRadiuses = {
                 -1,
-                0,
+                -1,
                 0,
                 -1,
                 -1,
@@ -73,73 +148,6 @@ public class TaigaCodeGen {
                 -1,
                 -1,
         };
-
-        // TEST SEED CHUNK
-//        final boolean CHECK_X_AND_Z = false;
-//        final int PRIMARY_TREE = 2;
-//        int[][] trees = {
-//                {   5,   2 },
-//                {  11,   5 },
-//                {  11,   2 },
-//                {  12,  11 },
-//                {   1,  15 },
-//        };
-//
-//        char[] treeTypes = {
-//                '1',
-//                '1',
-//                '2',
-//                '1',
-//                '1',
-//        };
-//
-//        int[] treeTotalHeights = {
-//                8,
-//                11,
-//                6,
-//                8,
-//                9,
-//        };
-//
-//        int[] treeBaseHeights = {
-//                -1,
-//                -1,
-//                2,
-//                -1,
-//                -1,
-//        };
-//
-//        int[] treeLeafHeights = {
-//                4,
-//                3,
-//                -1,
-//                3,
-//                3,
-//        };
-//
-//        int[] treeRadiuses = {
-//                3,
-//                2,
-//                2,
-//                2,
-//                1,
-//        };
-//
-//        int[] treeInitialRadiuses = {
-//                -1,
-//                -1,
-//                0,
-//                -1,
-//                -1,
-//        };
-//
-//        int[] treeTopLeaves = {
-//                -1,
-//                -1,
-//                -1,
-//                -1,
-//                -1,
-//        };
 
 
 

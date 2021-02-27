@@ -1,4 +1,4 @@
-package TreeCrackinPOS.treecodegen;
+package TreeCrackinPOS.codegen;
 
 import static TreeCrackinPOS.Utils.*;
 
