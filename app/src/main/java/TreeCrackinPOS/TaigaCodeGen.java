@@ -4,6 +4,7 @@ import TreeCrackinPOS.codegen.Comparison;
 import TreeCrackinPOS.codegen.LCGCheckerCodeGen;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaigaCodeGen {
     public static void main(String[] args) throws Exception {
@@ -16,7 +17,7 @@ public class TaigaCodeGen {
 //                {   9,   5 },
 //                {   4,   3 },
 //                {   6,  13 },
-//                {  13,   8 },
+//                {  13,   2 },
 //        };
 //
 //        char[] treeTypes = {
@@ -82,63 +83,62 @@ public class TaigaCodeGen {
 //                -1,
 //        };
 
+
+
+
         // TEST SEED CHUNK
-        final boolean CHECK_X_AND_Z = true;
+        final boolean CHECK_X_AND_Z = false;
         final int PRIMARY_TREE = 0;
         int[][] trees = {
-                {   5,   2 },
-                {  11,   5 },
-                {  11,   2 },
-                {  12,  11 },
-                {   1,  15 },
+                {   9,   0 },
+                {  12,   5 },
+                {   4,   5 },
+                {   2,  10 },
+                {   9,  11 },
         };
 
         char[] treeTypes = {
-                '1',
-                '1',
                 '2',
-                '1',
-                '1',
+                '2',
+                '2',
+                '2',
+                '2',
         };
 
         int[] treeTotalHeights = {
-                8,
-                11,
+                9,
+                9,
                 6,
                 8,
                 9,
         };
 
         int[] treeBaseHeights = {
-                -1,
-                -1,
-                2,
-                -1,
-                -1,
-        };
-
-        int[] treeLeafHeights = {
-                4,
-                3,
-                -1,
-                3,
-                3,
-        };
-
-        int[] treeRadiuses = {
-                3,
-                2,
                 2,
                 2,
                 1,
+                2,
+                2,
+        };
+
+        int[] treeLeafHeights = {
+
+        };
+
+        int[] treeRadiuses = {
+                2,
+                2,
+                2,
+                2,
+                2,
         };
 
         int[] treeInitialRadiuses = {
-                -1,
-                -1,
                 0,
-                -1,
-                -1,
+                1,
+                1,
+                0,
+                0,
         };
 
         int[] treeTopLeaves = {
@@ -173,7 +173,7 @@ public class TaigaCodeGen {
 
             String outfile = String.format("tree%d.cl", targetTree);
             LCGCheckerCodeGen kernelGen = new LCGCheckerCodeGen();
-            if (targetTree == PRIMARY_TREE) {
+            if (targetTree == PRIMARY_TREE && !CHECK_X_AND_Z) {
                 kernelGen.returnValue = "";
             } else {
                 kernelGen.returnValue = "0";
@@ -248,6 +248,7 @@ public class TaigaCodeGen {
                     // radius limit
                     if (treeRadiuses[targetTree] != -1) {
 //                        System.out.printf("radius %d\n", treeRadiuses[targetTree]);
+                        System.out.println(treeLeafHeights[targetTree] + 1);
                         if (treeRadiuses[targetTree] == 1) {
                             kernelGen.addComment("radius == 1");
                             kernelGen.addCheck(treeLeafHeights[targetTree] + 1, Comparison.EQUAL, treeRadiuses[targetTree] - 1);
@@ -272,7 +273,14 @@ public class TaigaCodeGen {
                     if (treeRadiuses[targetTree] != -1) {
                         kernelGen.addComment("radius");
 //                        System.out.printf("radius %d\n", treeRadiuses[targetTree] - 2);
-                        kernelGen.addCheck(2, Comparison.EQUAL, treeRadiuses[targetTree] - 2);
+                        if (treeRadiuses[targetTree] < 3) {
+                            // if the above is true, then the physical radius of the tree never
+                            // got a chance to hit the maximum radius, so we don't actually know
+                            // what the RNG value is
+                            kernelGen.addSkip(1);
+                        } else {
+                            kernelGen.addCheck(2, Comparison.EQUAL, treeRadiuses[targetTree] - 2);
+                        }
                     } else {
                         kernelGen.addSkip(1);
                     }
@@ -288,15 +296,19 @@ public class TaigaCodeGen {
                     if (treeTopLeaves[targetTree] != -1) {
                         kernelGen.addComment("top leaves");
 //                        System.out.printf("top leaves %d\n", treeTopLeaves[targetTree]);
-                        kernelGen.addCheck(2, Comparison.EQUAL, treeTopLeaves[targetTree]);
+                        kernelGen.addCheck(3, Comparison.EQUAL, treeTopLeaves[targetTree]);
                     } else {
                         kernelGen.addSkip(1);
                     }
                     break;
             }
 
-            Utils.writeStringToFile(outfile, kernelGen.toString());
+            Utils.writeStringToFile(outfile, "// tree " + targetTree + "\n" + kernelGen.toString());
 //            System.out.println("total call checks: " + kernelGen.rngCalls);
         }
+
+        System.out.println();
+        System.out.printf("total trees: %4d\n", trees.length);
+        System.out.printf("aux trees:   %4d\n", trees.length-1);
     }
 }
