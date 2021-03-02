@@ -3,3 +3,11 @@
 
 # Ignore Gradle build output directory
 build
+
+*.txt
+*.bin
+*.cl_snippet
+
+*~
+.*~
+
