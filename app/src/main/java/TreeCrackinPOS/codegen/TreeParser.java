@@ -1,6 +1,6 @@
 package TreeCrackinPOS.codegen;
 
-import static TreeCrackinPOS.Utils.*;
+import static TreeCrackinPOS.utils.Utils.*;
 
 public class TreeParser {
     public static void main(String[] args) throws Exception {

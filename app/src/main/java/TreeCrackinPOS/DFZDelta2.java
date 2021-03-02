@@ -1,5 +1,7 @@
 package TreeCrackinPOS;
 
+import TreeCrackinPOS.utils.Utils;
+
 public class DFZDelta2 {
     public static void main(String[] args) throws Exception {
         long chunkSeed      =     25214903912L;

@@ -1,10 +1,10 @@
 package TreeCrackinPOS;
 
+import TreeCrackinPOS.utils.Utils;
 import kaptainwutax.seedutils.lcg.LCG;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 public class RefindAuxTreeSeeds {
     // takes the output of the tree kernel (primary tree seeds that matched aux tree seeds as well)

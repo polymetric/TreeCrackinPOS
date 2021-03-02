@@ -1,4 +1,4 @@
-package TreeCrackinPOS;
+package TreeCrackinPOS.tests;
 
 import kaptainwutax.seedutils.lcg.LCG;
 

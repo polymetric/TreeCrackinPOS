@@ -2,9 +2,9 @@ package TreeCrackinPOS;
 
 import TreeCrackinPOS.codegen.Comparison;
 import TreeCrackinPOS.codegen.LCGCheckerCodeGen;
+import TreeCrackinPOS.utils.Utils;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaigaCodeGen {
     public static void main(String[] args) throws Exception {
@@ -47,15 +47,6 @@ public class TaigaCodeGen {
 //                -1,
 //        };
 //
-//        int[] treeLeafHeights = {
-//                3,
-//                -1,
-//                -1,
-//                4,
-//                -1,
-//                -1,
-//        };
-//
 //        int[] treeRadiuses = {
 //                2,
 //                2,
@@ -90,58 +81,61 @@ public class TaigaCodeGen {
         final boolean CHECK_X_AND_Z = false;
         final int PRIMARY_TREE = 0;
         int[][] trees = {
-                {   9,   0 },
-                {  12,   5 },
-                {   4,   5 },
-                {   2,  10 },
-                {   9,  11 },
+                {  10,   5 },
+                {  15,   1 },
+                {  15,   5 },
+                {   6,  10 },
+                {   0,  11 },
+                {  11,  15 },
         };
 
         char[] treeTypes = {
+                '1',
                 '2',
                 '2',
                 '2',
-                '2',
-                '2',
+                '1',
+                '1',
         };
 
         int[] treeTotalHeights = {
-                9,
-                9,
+                11,
                 6,
+                7,
                 8,
-                9,
+                8,
+                8,
         };
 
         int[] treeBaseHeights = {
+                7,
                 2,
                 2,
-                1,
                 2,
-                2,
-        };
-
-        int[] treeLeafHeights = {
-
+                4,
+                5,
         };
 
         int[] treeRadiuses = {
+                3,
                 2,
                 2,
                 2,
-                2,
+                3,
                 2,
         };
 
         int[] treeInitialRadiuses = {
-                0,
+                -1,
                 1,
-                1,
                 0,
                 0,
+                -1,
+                -1,
         };
 
         int[] treeTopLeaves = {
+                -1,
                 -1,
                 -1,
                 -1,
@@ -238,23 +232,23 @@ public class TaigaCodeGen {
             switch (treeTypes[targetTree]) {
                 case '1': // taiga type 1
                     // leaf height
-                    if (treeLeafHeights[targetTree] != -1) {
-//                        System.out.printf("leaf height %d\n", treeLeafHeights[targetTree] - 3);
-                        kernelGen.addComment("leaf height");
-                        kernelGen.addCheck(2, Comparison.EQUAL, treeLeafHeights[targetTree] - 3);
+                    int leafHeight = treeTotalHeights[targetTree] - treeBaseHeights[targetTree];
+                    if (leafHeight != -1) {
+//                        System.out.printf("base height %d\n", treeLeafHeights[targetTree] - 3);
+                        kernelGen.addComment("base height");
+                        kernelGen.addCheck(2, Comparison.EQUAL, leafHeight - 3);
                     } else {
                         kernelGen.addSkip(1);
                     }
                     // radius limit
                     if (treeRadiuses[targetTree] != -1) {
 //                        System.out.printf("radius %d\n", treeRadiuses[targetTree]);
-                        System.out.println(treeLeafHeights[targetTree] + 1);
                         if (treeRadiuses[targetTree] == 1) {
                             kernelGen.addComment("radius == 1");
-                            kernelGen.addCheck(treeLeafHeights[targetTree] + 1, Comparison.EQUAL, treeRadiuses[targetTree] - 1);
+                            kernelGen.addCheck(leafHeight + 1, Comparison.EQUAL, treeRadiuses[targetTree] - 1);
                         } else {
                             kernelGen.addComment("radius > 1");
-                            kernelGen.addCheck(treeLeafHeights[targetTree] + 1, Comparison.GREATER_THAN_OR_EQUAL, treeRadiuses[targetTree] - 1);
+                            kernelGen.addCheck(leafHeight + 1, Comparison.GREATER_THAN_OR_EQUAL, treeRadiuses[targetTree] - 1);
                         }
                     } else {
                         kernelGen.addSkip(1);

@@ -1,5 +1,7 @@
-package TreeCrackinPOS;
+package TreeCrackinPOS.post_processing;
 
+import TreeCrackinPOS.WorldToChunk;
+import TreeCrackinPOS.utils.Utils;
 import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.mc.MCVersion;
 import mjtb49.hashreversals.ChunkRandomReverser;

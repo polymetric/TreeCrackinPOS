@@ -3,12 +3,7 @@
  */
 package TreeCrackinPOS;
 
-import com.seedfinding.latticg.reversal.DynamicProgram;
-import com.seedfinding.latticg.reversal.calltype.java.JavaCalls;
-import com.seedfinding.latticg.util.LCG;
-
-import java.util.Random;
-import java.util.stream.LongStream;
+import TreeCrackinPOS.utils.RandomOverride;
 
 public class KernelPrototype {
     // main kernel prototype

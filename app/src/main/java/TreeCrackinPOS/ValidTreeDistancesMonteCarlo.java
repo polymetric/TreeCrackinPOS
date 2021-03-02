@@ -1,5 +1,7 @@
 package TreeCrackinPOS;
 
+import TreeCrackinPOS.utils.Utils;
+
 import java.util.*;
 
 public class ValidTreeDistancesMonteCarlo {

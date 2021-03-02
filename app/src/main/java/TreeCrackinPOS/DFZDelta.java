@@ -5,30 +5,21 @@ public class DFZDelta {
         long chunkSeed      =     25214903912L;
 //                                25214903917L // multiplier
         long treeRegionSeed = 197343751701400L;
-//        long[] treeSeeds = {
-//                197343751701400L,
-//                238584318639607L,
-//                26060680171178L,
-//                99121708499217L,
-//                249520863891189L,
-//                142639957996320L,
-//                246967174247599L,
-//                235216095870594L,
-//                191943944339408L,
-//                210112431842404L,
-//                91358059325155L,
-//                99121708499217L,
-//                142639957996320L,
-//                191943944339408L,
-//                210112431842404L,
-//        };
+        long[] treeSeeds = {
+                148077625820188L,
+                63876454369314L,
+                220967722438826L,
+                225855820187136L,
+                263377406591570L,
+        };
 
-        String[] treeSeeds = Utils.readFileToString("treeseeds_shotp_3_sorted.txt").split("\n");
+//        String[] treeSeeds = Utils.readFileToString("treeseeds_shotp_3_sorted.txt").split("\n");
 
-        long lastDfz = 0;
-//        for (long s : treeSeeds) {
-        for (int i = 0; i < treeSeeds.length; i++) {
-            long s = Long.parseLong(treeSeeds[i].trim());
+        long initialDfz = DiscreteLog.distanceFromZero(treeSeeds[0]);
+        long lastDfz = initialDfz;
+        for (long s : treeSeeds) {
+//        for (int i = 0; i < treeSeeds.length; i++) {
+//            long s = Long.parseLong(treeSeeds[i].trim());
             long curDfz = DiscreteLog.distanceFromZero(s);
             long delta = curDfz - lastDfz;
             System.out.printf("%4d\n", delta);

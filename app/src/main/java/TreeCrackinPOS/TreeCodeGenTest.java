@@ -2,6 +2,7 @@ package TreeCrackinPOS;
 
 import TreeCrackinPOS.codegen.Comparison;
 import TreeCrackinPOS.codegen.LCGCheckerCodeGen;
+import TreeCrackinPOS.utils.Utils;
 
 import java.io.File;
 
