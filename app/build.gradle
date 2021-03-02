@@ -13,8 +13,8 @@ repositories {
 dependencies {
     implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT'
     implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT:sources'
-    implementation 'com.seedfinding:latticg:1.04@jar'
-    implementation 'com.seedfinding:latticg:1.04:sources'
+    implementation 'com.seedfinding:latticg:1.05@jar'
+    implementation 'com.seedfinding:latticg:1.05:sources'
 }
 
 application {

@@ -12,16 +12,16 @@ public class DeDodgeTrees {
     // and gets the aux tree seeds back out
     public static void main(String[] args) throws Exception {
         final int TARGET_TREE_COUNT = 5;
-//        final String seedsInPath = "treeseeds_taigatest_2.txt";
+        final String seedsInPath = "treeseeds_taigatest_2.txt";
         final String seedsOutPath = "treeseeds_taigatest_2_dedodged.txt";
 
         final int TREE_CALL_RANGE = 90;
         final LCG revTCR = LCG.JAVA.combine(-TREE_CALL_RANGE);
 
-//        String[] seedsIn = Utils.readFileToString(seedsInPath).split("\n");
-        String[] seedsIn = {
-                "262035261123315",
-        }; // DEBUG
+        String[] seedsIn = Utils.readFileToString(seedsInPath).split("\n");
+//        String[] seedsIn = {
+//                "262035261123315",
+//        }; // DEBUG
 
         File seedsOutFile = new File(seedsOutPath);
         seedsOutFile.delete();

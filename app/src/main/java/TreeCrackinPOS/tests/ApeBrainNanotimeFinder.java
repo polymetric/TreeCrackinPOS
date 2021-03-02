@@ -10,10 +10,9 @@ import static TreeCrackinPOS.tests.ApeBrainNextLongReversal.*;
 
 public class ApeBrainNanotimeFinder {
     public static final long initialUniquifierValue = 8682522807148012L; // this value isn't actually ever used as a uniquifier
-    public static final long firstUniquifier = LCG.JAVA_UNIQUIFIER.nextSeed(initialUniquifierValue);
 
     public static long getNthUniquifier(long n) {
-        return LCG.JAVA_UNIQUIFIER.combine(n).nextSeed(initialUniquifierValue);
+        return LCG.JAVA_UNIQUIFIER_OLD.combine(n).nextSeed(initialUniquifierValue);
     }
 
     // gets the lower 48 bits of the nanotime that would've initialized a java RNG instance
