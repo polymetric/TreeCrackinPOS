@@ -27,7 +27,7 @@ public class LCGCheckerCodeGen {
             int mask = bound - 1;
 
             String parameterized = String.format(
-                    "if ((((seed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) return %s; // %s",
+                    "if (((( seed * %15dLU + %15dLU) >> %2d) & %2d) %2s %2d) return %s; // step %2d %s",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                     lcg.multiplier,
                     lcg.addend,
@@ -36,6 +36,7 @@ public class LCGCheckerCodeGen {
                     comparisonStr,
                     target,
                     returnValue,
+                    rngCalls,
                     comment
             );
             comment = "";
@@ -45,7 +46,7 @@ public class LCGCheckerCodeGen {
             int rightShift = 17;
 
             String parameterized = String.format(
-                    "if (((((seed * %15dLU + %15dLU) & %15dLU) >> %2d) %% %2d) %2s %2d) return %s; // %s",
+                    "if (((((seed * %15dLU + %15dLU) & %15dLU) >> %2d) %% %2d) %2s %2d) return %s; // step %2d %s",
 //                        rngCalls + callOffset, 0, // temporary test to make sure we're checking all seeds
                     lcg.multiplier,
                     lcg.addend,
@@ -55,6 +56,7 @@ public class LCGCheckerCodeGen {
                     comparisonStr,
                     target,
                     returnValue,
+                    rngCalls,
                     comment
             );
             comment = "";

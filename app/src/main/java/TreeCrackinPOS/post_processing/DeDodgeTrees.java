@@ -12,16 +12,16 @@ public class DeDodgeTrees {
     // and gets the aux tree seeds back out
     public static void main(String[] args) throws Exception {
         final int TARGET_TREE_COUNT = 6;
-        final String seedsInPath = "treeseeds_shotn_13.txt";
-        final String seedsOutPath = "treeseeds_shotn_13_dedodged.txt";
+        final String seedsInPath = "treeseeds_taigatest_3.txt";
+        final String seedsOutPath = "treeseeds_taigatest_3_dedodged.txt";
 
         final int TREE_CALL_RANGE = 90;
         final LCG revTCR = LCG.JAVA.combine(-TREE_CALL_RANGE);
 
-        String[] seedsIn = Utils.readFileToString(seedsInPath).split("\n");
-//        String[] seedsIn = {
-//                "262035261123315",
-//        }; // DEBUG
+//        String[] seedsIn = Utils.readFileToString(seedsInPath).split("\n");
+        String[] seedsIn = {
+                "262035261123315",
+        }; // DEBUG
 
         File seedsOutFile = new File(seedsOutPath);
         seedsOutFile.delete();
@@ -131,7 +131,7 @@ public class DeDodgeTrees {
     }
 
     public static int checkTree0(long seed) {
-// tree 0
+        // tree 0
         if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  9) return 0; // pos X
         if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 13) return 0; // pos Z
         if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
@@ -146,9 +146,7 @@ public class DeDodgeTrees {
 // tree 1
         if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  8) return 0; // pos X
         if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 10) return 0; // pos Z
-        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  1) return 0; // height
         if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
-//        if ((((seed *  61282721086213L +  25979478236433L) >> 47) &  1) !=  0) return 0; // initial radius
         if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) ==  0) return 0; // type
 
         return 1;

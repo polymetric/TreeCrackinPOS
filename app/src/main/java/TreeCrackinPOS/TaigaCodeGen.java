@@ -9,67 +9,143 @@ import java.io.File;
 public class TaigaCodeGen {
     public static void main(String[] args) throws Exception {
         // SHOT N - CHUNK -7, 22
+//        final boolean CHECK_X_AND_Z = false;
+//        final int PRIMARY_TREE = 0;
+//        int[][] trees = {
+//                {   9,  13 },
+//                {   8,  10 },
+//                {   9,   5 },
+//                {   4,   3 },
+//                {   6,  13 },
+//                {  13,   2 },
+//        };
+//
+//        char[] treeTypes = {
+//                '1',
+//                '2',
+//                '2',
+//                '1',
+//                '2',
+//                '1',
+//        };
+//
+//        int[] treeTotalHeights = {
+//                9,
+//                0,
+//                8,
+//                10,
+//                0,
+//                0,
+//        };
+//
+//        int[] treeBaseHeights = {
+//                -1,
+//                1,
+//                2,
+//                -1,
+//                1,
+//                -1,
+//        };
+//
+//        int[] treeLeafHeights = {
+//                3,
+//                -1,
+//                -1,
+//                4,
+//                -1,
+//                -1,
+//        };
+//
+//        int[] treeRadiuses = {
+//                2,
+//                2,
+//                2,
+//                1,
+//                2,
+//                -1,
+//        };
+//
+//        int[] treeInitialRadiuses = {
+//                -1,
+//                -1,
+//                0,
+//                -1,
+//                -1,
+//                -1,
+//        };
+//
+//        int[] treeTopLeaves = {
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//                -1,
+//        };
+
+
+        // TEST SEED CHUNK
         final boolean CHECK_X_AND_Z = false;
         final int PRIMARY_TREE = 0;
         int[][] trees = {
-                {   9,  13 },
-                {   8,  10 },
-                {   9,   5 },
-                {   4,   3 },
-                {   6,  13 },
-                {  13,   2 },
+                {  10,   5 },
+                {  15,   1 },
+                {  15,   5 },
+                {   6,  10 },
+                {   0,  11 },
+                {  11,  15 },
         };
 
         char[] treeTypes = {
                 '1',
                 '2',
                 '2',
-                '1',
                 '2',
+                '1',
                 '1',
         };
 
         int[] treeTotalHeights = {
-                10,
-                0,
-                9,
                 11,
-                0,
-                0,
+                6,
+                7,
+                8,
+                8,
+                8,
         };
 
         int[] treeBaseHeights = {
-                -1,
-                1,
+                7,
                 2,
-                -1,
-                1,
-                -1,
+                2,
+                2,
+                4,
+                5,
         };
 
         int[] treeLeafHeights = {
-                3,
-                -1,
-                -1,
                 4,
                 -1,
                 -1,
+                -1,
+                4,
+                3,
         };
 
         int[] treeRadiuses = {
+                3,
                 2,
                 2,
                 2,
-                1,
+                3,
                 2,
-                -1,
         };
 
         int[] treeInitialRadiuses = {
                 -1,
-                -1,
+                1,
                 0,
-                -1,
+                0,
                 -1,
                 -1,
         };
@@ -82,7 +158,6 @@ public class TaigaCodeGen {
                 -1,
                 -1,
         };
-
 
 
 
@@ -241,7 +316,7 @@ public class TaigaCodeGen {
             switch (treeTypes[targetTree]) {
                 case '1': // taiga type 1
                     // leaf height
-                    int leafHeight = treeTotalHeights[targetTree] - treeBaseHeights[targetTree];
+                    int leafHeight = treeLeafHeights[targetTree];
                     if (leafHeight != -1) {
 //                        System.out.printf("base height %d\n", treeLeafHeights[targetTree] - 3);
                         kernelGen.addComment("base height");
