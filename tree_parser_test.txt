@@ -1,9 +1,0 @@
-A0 nulululnlulu -351 202 h 6 o
-A1 nuuuluunllun -354 205 h 5 o
-A2 uunuulnunlnu -348 206 h 5 o
-A3 luuunuullulu -356 208 h 5 b
-A4 nuuuluunnulu -358 211 h 4 o
-A5 nululnlllulu -353 214 h 6 o
-
-B0 nllulnnulnlu -344 203 h 6 b
-B1 nuuunlnnnuuu -344 211 h 6 b
