@@ -11,9 +11,9 @@ public class DeDodgeTrees {
     // takes the output of the tree kernel (primary tree seeds that matched aux tree seeds as well)
     // and gets the aux tree seeds back out
     public static void main(String[] args) throws Exception {
-        final int TARGET_TREE_COUNT = 5;
-        final String seedsInPath = "treeseeds_taigatest_2.txt";
-        final String seedsOutPath = "treeseeds_taigatest_2_dedodged.txt";
+        final int TARGET_TREE_COUNT = 6;
+        final String seedsInPath = "treeseeds_shotn_13.txt";
+        final String seedsOutPath = "treeseeds_shotn_13_dedodged.txt";
 
         final int TREE_CALL_RANGE = 90;
         final LCG revTCR = LCG.JAVA.combine(-TREE_CALL_RANGE);
@@ -132,23 +132,23 @@ public class DeDodgeTrees {
 
     public static int checkTree0(long seed) {
 // tree 0
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) != 10) return 0; // pos X
-        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) !=  5) return 0; // pos Z
-        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  1) return 0; // base height
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  9) return 0; // pos X
+        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 13) return 0; // pos Z
+        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
+        if ((((seed *  76790647859193L +  25707281917278L) >> 46) &  3)  <  1) return 0; // radius > 1
         if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) !=  0) return 0; // type
-        if (((((seed *  55986898099985L +  49720483695876L) & 281474976710655L) >> 17) %  5) !=  4) return 0; // height
-        if (((((seed *  76790647859193L +  25707281917278L) & 281474976710655L) >> 17) %  5)  <  2) return 0; // radius > 1
+        if (((((seed *  55986898099985L +  49720483695876L) & 281474976710655L) >> 17) %  5) !=  2) return 0; // height
 
         return 1;
     }
 
     public static int checkTree1(long seed) {
 // tree 1
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) != 15) return 0; // pos X
-        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) !=  1) return 0; // pos Z
-        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  0) return 0; // height
-        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  1) return 0; // base height
-        if ((((seed *  61282721086213L +  25979478236433L) >> 47) &  1) !=  1) return 0; // initial radius
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  8) return 0; // pos X
+        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 10) return 0; // pos Z
+        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  1) return 0; // height
+        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
+//        if ((((seed *  61282721086213L +  25979478236433L) >> 47) &  1) !=  0) return 0; // initial radius
         if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) ==  0) return 0; // type
 
         return 1;
@@ -156,9 +156,9 @@ public class DeDodgeTrees {
 
     public static int checkTree2(long seed) {
 // tree 2
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) != 15) return 0; // pos X
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  9) return 0; // pos X
         if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) !=  5) return 0; // pos Z
-        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  1) return 0; // height
+        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  2) return 0; // height
         if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  1) return 0; // base height
         if ((((seed *  61282721086213L +  25979478236433L) >> 47) &  1) !=  0) return 0; // initial radius
         if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) ==  0) return 0; // type
@@ -168,36 +168,31 @@ public class DeDodgeTrees {
 
     public static int checkTree3(long seed) {
 // tree 3
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  6) return 0; // pos X
-        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 10) return 0; // pos Z
-        if ((((seed *  55986898099985L +  49720483695876L) >> 46) &  3) !=  2) return 0; // height
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  4) return 0; // pos X
+        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) !=  3) return 0; // pos Z
         if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  1) return 0; // base height
-        if ((((seed *  61282721086213L +  25979478236433L) >> 47) &  1) !=  0) return 0; // initial radius
-        if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) ==  0) return 0; // type
+        if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) !=  0) return 0; // type
+        if (((((seed *  55986898099985L +  49720483695876L) & 281474976710655L) >> 17) %  5) !=  3) return 0; // height
+        if (((((seed *  76790647859193L +  25707281917278L) & 281474976710655L) >> 17) %  5) !=  0) return 0; // radius == 1
 
         return 1;
     }
 
     public static int checkTree4(long seed) {
 // tree 4
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  0) return 0; // pos X
-        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 11) return 0; // pos Z
-        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  1) return 0; // base height
-        if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) !=  0) return 0; // type
-        if (((((seed *  55986898099985L +  49720483695876L) & 281474976710655L) >> 17) %  5) !=  1) return 0; // height
-        if (((((seed *  76790647859193L +  25707281917278L) & 281474976710655L) >> 17) %  5)  <  2) return 0; // radius > 1
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) !=  6) return 0; // pos X
+        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 13) return 0; // pos Z
+        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
+        if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) ==  0) return 0; // type
 
         return 1;
     }
 
     public static int checkTree5(long seed) {
 // tree 5
-        if ((((seed *     25214903917L +              11L) >> 44) & 15) != 11) return 0; // pos X
-        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) != 15) return 0; // pos Z
-        if ((((seed * 120950523281469L + 102626409374399L) >> 47) &  1) !=  0) return 0; // base height
-        if ((((seed *  76790647859193L +  25707281917278L) >> 46) &  3)  <  1) return 0; // radius > 1
+        if ((((seed *     25214903917L +              11L) >> 44) & 15) != 13) return 0; // pos X
+        if ((((seed * 205749139540585L +    277363943098L) >> 44) & 15) !=  2) return 0; // pos Z
         if (((((seed * 233752471717045L +  11718085204285L) & 281474976710655L) >> 17) %  3) !=  0) return 0; // type
-        if (((((seed *  55986898099985L +  49720483695876L) & 281474976710655L) >> 17) %  5) !=  1) return 0; // height
 
         return 1;
     }
