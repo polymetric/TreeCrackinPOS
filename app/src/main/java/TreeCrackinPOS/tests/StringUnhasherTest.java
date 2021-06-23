@@ -1,7 +1,7 @@
 package TreeCrackinPOS.tests;
 
-import kaptainwutax.seedutils.mc.seed.WorldSeed;
-import kaptainwutax.seedutils.util.StringUnhasher;
+import kaptainwutax.mcutils.rand.seed.WorldSeed;
+import kaptainwutax.mcutils.util.data.StringUnhasher;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

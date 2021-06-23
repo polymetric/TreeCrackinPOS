@@ -1,7 +1,7 @@
 package TreeCrackinPOS;
 
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.mc.MCVersion;
+import kaptainwutax.mcutils.version.MCVersion;
 import mjtb49.hashreversals.ChunkRandomReverser;
 
 public class CRRTest {

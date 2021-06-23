@@ -3,7 +3,7 @@ package TreeCrackinPOS.post_processing;
 import TreeCrackinPOS.WorldToChunk;
 import TreeCrackinPOS.utils.Utils;
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.mc.MCVersion;
+import kaptainwutax.mcutils.version.MCVersion;
 import mjtb49.hashreversals.ChunkRandomReverser;
 
 import java.io.*;

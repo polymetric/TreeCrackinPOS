@@ -3,11 +3,9 @@
  */
 package TreeCrackinPOS;
 
-import org.junit.jupiter.api.Test;
-
 class AppTest {
-    @Test void appHasAGreeting() {
-        KernelPrototype classUnderTest = new KernelPrototype();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
+//    @Test void appHasAGreeting() {
+//        KernelPrototype classUnderTest = new KernelPrototype();
+//        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+//    }
 }
