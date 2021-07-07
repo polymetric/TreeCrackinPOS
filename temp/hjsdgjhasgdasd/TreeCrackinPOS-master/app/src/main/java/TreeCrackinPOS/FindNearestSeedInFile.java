@@ -11,8 +11,8 @@ import static java.lang.Math.*;
 
 public class FindNearestSeedInFile {
     public static void main(String[] args) throws Exception {
-        final long targetSeed = 161113400866202L;
-        final String seedsInPath = "treeseeds_shotn_13.txt";
+        final long targetSeed = 147759439373717L;
+        final String seedsInPath = "treeseeds_taigatest_2.txt";
         String[] seedsIn = readFileToString(seedsInPath).split("\n");
         ArrayList<SeedDfzPair> seedDfzPairs = new ArrayList<>();
 

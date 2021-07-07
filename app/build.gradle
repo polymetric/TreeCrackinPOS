@@ -11,10 +11,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT'
-    implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT:sources'
-    implementation 'com.seedfinding:latticg:1.05@jar'
-    implementation 'com.seedfinding:latticg:1.05:sources'
+    compile 'com.github.KaptainWutax:SEED:master-SNAPSHOT'
+    compile 'com.github.KaptainWutax:SEED:master-SNAPSHOT:sources'
+    compile 'com.seedfinding:latticg:1.05@jar'
+    compile 'com.seedfinding:latticg:1.05:sources'
+    compile ('com.github.KaptainWutax:BiomeUtils:-SNAPSHOT'){
+        transitive = false
+    }
+    compile ('com.github.KaptainWutax:TerrainUtils:main-SNAPSHOT'){
+        transitive = false
+    }
+    compile ('com.github.KaptainWutax:SeedUtils:-SNAPSHOT'){
+        transitive = false
+    }
 }
 
 application {
@@ -24,4 +33,13 @@ application {
 //    mainClass = 'TreeCrackinPOS.NextIntDemo'
 //    mainClass = 'TreeCrackinPOS.NextIntDemo2'
 //    mainClass = 'TreeCrackinPOS.TreeCodeGenTest'
+}
+
+task TreeSeedBiomeFinder_FatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'TreeCrackinPOS.post_processing.TreeSeedBiomeFinder'
+    }
+    baseName = 'TreeSeedBiomeFinder'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }

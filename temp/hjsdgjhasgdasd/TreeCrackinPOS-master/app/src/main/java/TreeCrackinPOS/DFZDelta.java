@@ -6,16 +6,11 @@ public class DFZDelta {
 //                                25214903917L // multiplier
         long treeRegionSeed = 197343751701400L;
         long[] treeSeeds = {
-                210579644006633L,
-                73835844781823L,
-                243555800182311L,
-                174706538134093L,
-                71665048239413L,
-                210755731079403L,
-                244081849022867L,
-                276860902705753L,
-                232022459368687L,
-                260783265487573L,
+                148077625820188L,
+                63876454369314L,
+                220967722438826L,
+                225855820187136L,
+                263377406591570L,
         };
 
 //        String[] treeSeeds = Utils.readFileToString("treeseeds_shotp_3_sorted.txt").split("\n");

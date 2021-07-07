@@ -1,0 +1,27 @@
+plugins {
+    id 'application'
+    id 'maven'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    maven { url "https://maven.latticg.com/" }
+}
+
+dependencies {
+    implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT'
+    implementation 'com.github.KaptainWutax:SEED:master-SNAPSHOT:sources'
+    implementation 'com.seedfinding:latticg:1.05@jar'
+    implementation 'com.seedfinding:latticg:1.05:sources'
+}
+
+application {
+//    mainClass = 'TreeCrackinPOS.KernelPrototype'
+//    mainClass = 'TreeCrackinPOS.DFZTest'
+//    mainClass = 'TreeCrackinPOS.WorldToChunk'
+//    mainClass = 'TreeCrackinPOS.NextIntDemo'
+//    mainClass = 'TreeCrackinPOS.NextIntDemo2'
+//    mainClass = 'TreeCrackinPOS.TreeCodeGenTest'
+}
